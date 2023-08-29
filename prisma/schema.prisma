@@ -1,89 +1,89 @@
 generator client {
-	provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-	provider = "postgresql"
-	url      = env("DATABASE_URL")
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
 }
 
 model Country {
-	id            Int             @id @default(autoincrement())
-	name          String          @unique
-	accounts      Account[]
-	orderCount    OrderCount[]
-	CallCount     CallCount[]
-	MailCount     MailCount[]
-	ProductsCount ProductsCount[]
-	customInfo    CustomInfo[]
-	createdAt     DateTime        @default(now())
-	udatedAt      DateTime        @default(now()) @updatedAt
+    id            Int             @id @default(autoincrement())
+    name          String          @unique
+    accounts      Account[]
+    orderCount    OrderCount[]
+    CallCount     CallCount[]
+    MailCount     MailCount[]
+    ProductsCount ProductsCount[]
+    customInfo    CustomInfo[]
+    createdAt     DateTime        @default(now())
+    udatedAt      DateTime        @default(now()) @updatedAt
 }
 
 model Account {
-	id            Int             @id @default(autoincrement())
-	name          String          @unique
-	country       Country[]
-	orderCount    OrderCount[]
-	CallCount     CallCount[]
-	MailCount     MailCount[]
-	ProductsCount ProductsCount[]
-	customInfo    CustomInfo[]
-	createdAt     DateTime        @default(now())
-	udatedAt      DateTime        @default(now()) @updatedAt
+    id            Int             @id @default(autoincrement())
+    name          String          @unique
+    country       Country[]
+    orderCount    OrderCount[]
+    CallCount     CallCount[]
+    MailCount     MailCount[]
+    ProductsCount ProductsCount[]
+    customInfo    CustomInfo[]
+    createdAt     DateTime        @default(now())
+    udatedAt      DateTime        @default(now()) @updatedAt
 }
 
 model OrderCount {
-	id        Int      @id @default(autoincrement())
-	count     Int      @default(0)
-	Country   Country  @relation(fields: [countryId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-	countryId Int
-	Account   Account  @relation(fields: [accountId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-	accountId Int
-	createdAt DateTime @default(now())
-	udatedAt  DateTime @default(now()) @updatedAt
+    id        Int      @id @default(autoincrement())
+    count     Int      @default(0)
+    Country   Country  @relation(fields: [countryId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+    countryId Int
+    Account   Account  @relation(fields: [accountId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+    accountId Int
+    createdAt DateTime @default(now())
+    udatedAt  DateTime @default(now()) @updatedAt
 }
 
 model CallCount {
-	id        Int      @id @default(autoincrement())
-	count     Int      @default(0)
-	Country   Country  @relation(fields: [countryId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-	countryId Int
-	Account   Account  @relation(fields: [accountId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-	accountId Int
-	createdAt DateTime @default(now())
-	udatedAt  DateTime @default(now()) @updatedAt
+    id        Int      @id @default(autoincrement())
+    count     Int      @default(0)
+    Country   Country  @relation(fields: [countryId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+    countryId Int
+    Account   Account  @relation(fields: [accountId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+    accountId Int
+    createdAt DateTime @default(now())
+    udatedAt  DateTime @default(now()) @updatedAt
 }
 
 model MailCount {
-	id        Int      @id @default(autoincrement())
-	count     Int      @default(0)
-	Country   Country  @relation(fields: [countryId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-	countryId Int
-	Account   Account  @relation(fields: [accountId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-	accountId Int
-	createdAt DateTime @default(now())
-	udatedAt  DateTime @default(now()) @updatedAt
+    id        Int      @id @default(autoincrement())
+    count     Int      @default(0)
+    Country   Country  @relation(fields: [countryId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+    countryId Int
+    Account   Account  @relation(fields: [accountId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+    accountId Int
+    createdAt DateTime @default(now())
+    udatedAt  DateTime @default(now()) @updatedAt
 }
 
 model ProductsCount {
-	id        Int      @id @default(autoincrement())
-	count     Int      @default(0)
-	Country   Country  @relation(fields: [countryId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-	countryId Int
-	Account   Account  @relation(fields: [accountId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-	accountId Int
-	createdAt DateTime @default(now())
-	udatedAt  DateTime @default(now()) @updatedAt
+    id        Int      @id @default(autoincrement())
+    count     Int      @default(0)
+    Country   Country  @relation(fields: [countryId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+    countryId Int
+    Account   Account  @relation(fields: [accountId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+    accountId Int
+    createdAt DateTime @default(now())
+    udatedAt  DateTime @default(now()) @updatedAt
 }
 
 model CustomInfo {
-	id        Int      @id @default(autoincrement())
-	info      String
-	createdAt DateTime @default(now())
-	udatedAt  DateTime @default(now()) @updatedAt
-	Country   Country? @relation(fields: [countryId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-	countryId Int?
-	Account   Account? @relation(fields: [accountId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-	accountId Int?
+    id        Int      @id @default(autoincrement())
+    info      String
+    createdAt DateTime @default(now())
+    udatedAt  DateTime @default(now()) @updatedAt
+    Country   Country? @relation(fields: [countryId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+    countryId Int?
+    Account   Account? @relation(fields: [accountId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+    accountId Int?
 }
