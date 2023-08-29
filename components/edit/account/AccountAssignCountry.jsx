@@ -40,7 +40,7 @@ const AccountAssignCountry = ({ account, country }) => {
   });
 
   return (
-    <>
+    <div className="flex items-center gap-1">
       <Checkbox
         data-accountid={account.id}
         data-countryid={country.id}
@@ -54,7 +54,7 @@ const AccountAssignCountry = ({ account, country }) => {
       >
         {country.name}
       </label>
-    </>
+    </div>
   );
 };
 

@@ -41,7 +41,7 @@ const AccountNewInput = () => {
   });
 
   return (
-    <form onSubmit={handleCreateAccount.mutate} className="flex gap-2">
+    <form onSubmit={handleCreateAccount.mutate} className="flex gap-2 px-2">
       <Input
         ref={inputRef}
         placeholder="Dodaj konto"

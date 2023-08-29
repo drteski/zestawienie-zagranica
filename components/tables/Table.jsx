@@ -13,10 +13,10 @@ export function TableDemo({ countryId, dateStart, dateEnd, accounts }) {
         {accounts.length === 0 ? (
           <TableRow>
             <TableCell
-              className="text-center text-xl font-light py-6"
+              className="text-center h-[120px] text-xl text-foreground/50 uppercase"
               colSpan="7"
             >
-              Brak danych
+              Brak dodanych kont
             </TableCell>
           </TableRow>
         ) : (

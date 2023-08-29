@@ -13,11 +13,8 @@ const useGetAccount = ({ id }) => {
       }));
   };
 
-  const { data, error, isError, isLoading } = useQuery(
-    ["account", id],
-    getAccount,
-  );
-  return { data, error, isError, isLoading };
+  const { data, isLoading } = useQuery(["account", id], getAccount);
+  return { data, isLoading };
 };
 
 export default useGetAccount;

@@ -15,11 +15,11 @@ const useGetInfo = (countryId, accountId, dateStart, dateEnd) => {
       }));
   };
 
-  const { data, error, isError, isLoading } = useQuery(
+  const { data, isLoading } = useQuery(
     ["info", countryId, accountId, dateStart, dateEnd],
     getInfo,
   );
-  return { data, error, isError, isLoading };
+  return { data, isLoading };
 };
 
 export default useGetInfo;

@@ -15,11 +15,11 @@ const useGetCalls = (countryId, accountId, dateStart, dateEnd) => {
       }));
   };
 
-  const { data, error, isError, isLoading } = useQuery(
+  const { data, isLoading } = useQuery(
     ["calls", countryId, accountId, dateStart, dateEnd],
     getCalls,
   );
-  return { data, error, isError, isLoading };
+  return { data, isLoading };
 };
 
 export default useGetCalls;

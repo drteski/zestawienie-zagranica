@@ -15,11 +15,11 @@ const useGetProducts = (countryId, accountId, dateStart, dateEnd) => {
       }));
   };
 
-  const { data, error, isError, isLoading } = useQuery(
+  const { data, isLoading } = useQuery(
     ["products", countryId, accountId, dateStart, dateEnd],
     getProducts,
   );
-  return { data, error, isError, isLoading };
+  return { data, isLoading };
 };
 
 export default useGetProducts;

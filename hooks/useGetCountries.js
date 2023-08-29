@@ -13,11 +13,8 @@ const useGetCountries = () => {
       }));
   };
 
-  const { data, error, isError, isLoading } = useQuery(
-    ["countries"],
-    getCountries,
-  );
-  return { data, error, isError, isLoading };
+  const { data, isLoading } = useQuery(["countries"], getCountries);
+  return { data, isLoading };
 };
 
 export default useGetCountries;

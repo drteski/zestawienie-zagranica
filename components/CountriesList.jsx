@@ -14,9 +14,7 @@ const CountriesList = () => {
     <>
       {countries.isLoading ? (
         Array.from(Array(20).keys()).map((item) => {
-          return (
-            <Skeleton key={item} className="h-8 w-full bg-primary-foreground" />
-          );
+          return <Skeleton key={item} className="h-8 w-full bg-foreground/5" />;
         })
       ) : (
         <>

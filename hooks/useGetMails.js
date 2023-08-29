@@ -15,11 +15,11 @@ const useGetMails = (countryId, accountId, dateStart, dateEnd) => {
       }));
   };
 
-  const { data, error, isError, isLoading } = useQuery(
+  const { data, isLoading } = useQuery(
     ["mails", countryId, accountId, dateStart, dateEnd],
     getMails,
   );
-  return { data, error, isError, isLoading };
+  return { data, isLoading };
 };
 
 export default useGetMails;

@@ -13,11 +13,11 @@ const useGetTodaysOrder = (countryId, accountId) => {
       }));
   };
 
-  const { data, error, isError, isLoading } = useQuery(
+  const { data, isLoading } = useQuery(
     ["order", countryId, accountId],
     getOrder,
   );
-  return { data, error, isError, isLoading };
+  return { data, isLoading };
 };
 
 export default useGetTodaysOrder;

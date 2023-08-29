@@ -15,11 +15,11 @@ const useGetOrders = (countryId, accountId, dateStart, dateEnd) => {
       }));
   };
 
-  const { data, error, isError, isLoading } = useQuery(
+  const { data, isLoading } = useQuery(
     ["orders", countryId, accountId, dateStart, dateEnd],
     getOrders,
   );
-  return { data, error, isError, isLoading };
+  return { data, isLoading };
 };
 
 export default useGetOrders;
