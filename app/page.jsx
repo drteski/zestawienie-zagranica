@@ -51,7 +51,7 @@ const HomePage = () => {
             calls={calls}
             allOrders={allOrders}
           />
-          <div className="overflow-y-scroll mt-4 h-[calc(100dvh_-_32px_-_64px)]">
+          <div className="overflow-y-scroll mt-4 pb-7 h-[calc(100dvh_-_32px_-_64px)]">
             {countries.isLoading ? (
               <Skeleton className="m-4 h-[calc(100dvh_-_32px_-_64px_-_32px)] bg-foreground/5" />
             ) : countries.data.length === 0 ? (
