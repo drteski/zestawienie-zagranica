@@ -17,6 +17,5 @@ export async function GET(request) {
     },
   });
 
-  console.log(orders);
   return NextResponse.json([...orders]);
 }

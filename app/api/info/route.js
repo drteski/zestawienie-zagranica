@@ -1,17 +1,8 @@
 import { NextResponse } from "next/server";
 import prisma from "@/db";
 
-export async function GET(request) {
-  const query = request.nextUrl.searchParams;
-  const countryId = query.get("countryId");
-  const accountId = query.get("accountId");
-  const customInfo = await prisma.customInfo.findMany({
-    where: {
-      countryId: parseInt(countryId),
-      accountId: parseInt(accountId),
-    },
-  });
-  console.log([...customInfo]);
+export async function GET() {
+  const customInfo = await prisma.customInfo.findMany();
   return NextResponse.json([...customInfo]);
 }
 

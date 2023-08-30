@@ -1,3 +1,5 @@
+"use client";
+
 import { useToast } from "@/components/ui/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
@@ -7,7 +9,11 @@ import { Input } from "@/components/ui/input";
 
 const CellInfo = ({ data, countryId, accountId }) => {
   const [info, setInfo] = useState(() => {
-    return data.length > 0 ? data[0].info : "";
+    const filteredInfo = data
+      .filter((country) => country.countryId === countryId)
+      .filter((account) => account.accountId === accountId);
+
+    return filteredInfo.length > 0 ? filteredInfo[0].info : "";
   });
   const { toast } = useToast();
   const queryClient = useQueryClient();

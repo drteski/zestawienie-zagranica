@@ -3,18 +3,31 @@
 import { Tabs, TabsContent, TabsList } from "@/components/ui/tabs";
 import CountriesList from "@/components/CountriesList";
 import CountryTableContainer from "@/components/tables/CountryTableContainer";
-import { TableDemo } from "@/components/tables/Table";
+import { TableContainer } from "@/components/tables/Table";
 import useGetCountries from "@/hooks/useGetCountries";
 import { Skeleton } from "@/components/ui/skeleton";
-import { endOfMonth, format, startOfMonth } from "date-fns";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import useGetAllOrders from "@/hooks/all/useGetAllOrders";
+import useGetAllProducts from "@/hooks/all/useGetAllProducts";
+import useGetAllMails from "@/hooks/all/useGetAllMails";
+import useGetAllCalls from "@/hooks/all/useGetAllCalls";
+import { useEffect, useState } from "react";
+import HeaderCount from "@/components/HeaderCount";
 
 const HomePage = () => {
   const countries = useGetCountries();
+  const orders = useGetAllOrders();
+  const products = useGetAllProducts();
+  const mails = useGetAllMails();
+  const calls = useGetAllCalls();
 
-  const dateStart = startOfMonth(new Date());
-  const dateEnd = endOfMonth(new Date());
+  const [allOrders, setAllOrders] = useState(0);
+  useEffect(() => {
+    if (orders.isLoading) return;
+    const allOrders = orders.data.reduce((acc, curr) => acc + curr.count, 0);
+    setAllOrders(allOrders);
+  }, [orders]);
 
   return (
     <main className="h-[100dvh] p-4">
@@ -31,12 +44,14 @@ const HomePage = () => {
           </Button>
         </TabsList>
         <div className="h-full w-full bg-muted rounded-md overflow-hidden">
-          <div className="flex items-center px-4 my-4 justify-end">
-            <p className="bg-foreground rounded-md text-primary-foreground px-2 py-1">
-              {format(new Date(), "dd-MM-y")}
-            </p>
-          </div>
-          <div className="overflow-y-scroll h-[calc(100dvh_-_32px_-_64px)]">
+          <HeaderCount
+            orders={orders}
+            products={products}
+            mails={mails}
+            calls={calls}
+            allOrders={allOrders}
+          />
+          <div className="overflow-y-scroll mt-4 h-[calc(100dvh_-_32px_-_64px)]">
             {countries.isLoading ? (
               <Skeleton className="m-4 h-[calc(100dvh_-_32px_-_64px_-_32px)] bg-foreground/5" />
             ) : countries.data.length === 0 ? (
@@ -61,12 +76,10 @@ const HomePage = () => {
                         country={country.name}
                         countryId={country.id}
                       >
-                        <TableDemo
+                        <TableContainer
                           country={country.name}
                           countryId={country.id}
                           accounts={country.accounts}
-                          dateStart={format(dateStart, "y-MM-dd")}
-                          dateEnd={format(dateEnd, "y-MM-dd")}
                         />
                       </CountryTableContainer>
                     );
@@ -79,12 +92,10 @@ const HomePage = () => {
                         country={country.name}
                         countryId={country.id}
                       >
-                        <TableDemo
+                        <TableContainer
                           country={country.name}
                           countryId={country.id}
                           accounts={country.accounts}
-                          dateStart={format(dateStart, "y-MM-dd")}
-                          dateEnd={format(dateEnd, "y-MM-dd")}
                         />
                       </CountryTableContainer>
                     </TabsContent>

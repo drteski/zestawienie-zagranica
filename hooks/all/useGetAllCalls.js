@@ -3,18 +3,18 @@
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 
-const useGetInfo = () => {
-  const getInfo = async () => {
+const useGetAllCalls = () => {
+  const getAllCalls = async () => {
     return await axios
-      .get(`/api/info`)
+      .get("/api/calls/all")
       .then((res) => res.data)
       .catch((error) => ({
         message: error,
       }));
   };
 
-  const { data, isLoading } = useQuery(["info"], getInfo);
+  const { data, isLoading } = useQuery(["allcalls"], getAllCalls);
   return { data, isLoading };
 };
 
-export default useGetInfo;
+export default useGetAllCalls;

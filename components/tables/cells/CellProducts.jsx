@@ -1,3 +1,5 @@
+"use client";
+
 import { useToast } from "@/components/ui/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
@@ -6,12 +8,12 @@ import { useState } from "react";
 import { isToday, parseISO } from "date-fns";
 import { Input } from "@/components/ui/input";
 
-const CellProducts = ({ data, countryId, accountId, dateStart, dateEnd }) => {
+const CellProducts = ({ data, countryId, accountId }) => {
   const [product, setProduct] = useState(() => {
     return data
-      .map((product) =>
-        isToday(parseISO(product.createdAt)) ? product.count : 0,
-      )
+      .filter((country) => country.countryId === countryId)
+      .filter((account) => account.accountId === accountId)
+      .map((date) => (isToday(parseISO(date.createdAt)) ? date.count : 0))
       .reduce((acc, curr) => acc + curr, 0);
   });
   const { toast } = useToast();
@@ -31,13 +33,7 @@ const CellProducts = ({ data, countryId, accountId, dateStart, dateEnd }) => {
   const handleProducts = useMutation({
     mutationFn: updateProducts,
     onSuccess: (res) => {
-      queryClient.invalidateQueries([
-        "products",
-        countryId,
-        accountId,
-        dateStart,
-        dateEnd,
-      ]);
+      queryClient.invalidateQueries(["allproducts"]);
       router.refresh();
       toast({
         title: `${res.message}`,

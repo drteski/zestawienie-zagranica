@@ -3,9 +3,26 @@
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import TableHeadContent from "@/components/tables/TableHeadContent";
 import TableFootContent from "@/components/tables/TableFootContent";
-import CellContent from "@/components/tables/CellContent";
+import useGetAllOrders from "@/hooks/all/useGetAllOrders";
+import useGetAllProducts from "@/hooks/all/useGetAllProducts";
+import useGetAllMails from "@/hooks/all/useGetAllMails";
+import useGetAllCalls from "@/hooks/all/useGetAllCalls";
+import { Skeleton } from "@/components/ui/skeleton";
+import CellOrders from "@/components/tables/cells/CellOrders";
+import CellCalls from "@/components/tables/cells/CellCalls";
+import CellMails from "@/components/tables/cells/CellMails";
+import CellProducts from "@/components/tables/cells/CellProducts";
+import CellInfo from "@/components/tables/cells/CellInfo";
+import useGetInfo from "@/hooks/useGetInfo";
+import CellAllOrders from "@/components/tables/cells/CellAllOrders";
 
-export function TableDemo({ countryId, dateStart, dateEnd, accounts }) {
+export function TableContainer({ countryId, accounts }) {
+  const orders = useGetAllOrders();
+  const products = useGetAllProducts();
+  const mails = useGetAllMails();
+  const calls = useGetAllCalls();
+  const info = useGetInfo();
+
   return (
     <Table>
       <TableHeadContent />
@@ -22,70 +39,97 @@ export function TableDemo({ countryId, dateStart, dateEnd, accounts }) {
         ) : (
           accounts.map((account) => {
             return (
-              <TableRow key={account.name}>
+              <TableRow
+                className="border-b border-b-foreground/5"
+                key={account.name}
+              >
                 <TableCell id="account" className="py-0 font-medium text-sm">
                   {account.name}
                 </TableCell>
-                <TableCell id="orders" className="p-0 text-center text-sm">
-                  <CellContent
-                    countryId={countryId}
-                    accountId={account.id}
-                    dateStart={dateStart}
-                    dateEnd={dateEnd}
-                    type="orders"
-                  />
+                <TableCell id="orders" className="p-0 px-1 text-center text-sm">
+                  {orders.isLoading ? (
+                    <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
+                  ) : (
+                    <CellOrders
+                      data={orders.data}
+                      countryId={countryId}
+                      accountId={account.id}
+                    />
+                  )}
                 </TableCell>
-                <TableCell id="allorders" className="p-0 text-center text-sm">
-                  <CellContent
-                    countryId={countryId}
-                    accountId={account.id}
-                    dateStart={dateStart}
-                    dateEnd={dateEnd}
-                    type="allorders"
-                  />
+                <TableCell
+                  id="allorders"
+                  className="p-0 px-1 text-center text-sm"
+                >
+                  {orders.isLoading ? (
+                    <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
+                  ) : (
+                    <CellAllOrders
+                      data={orders.data}
+                      countryId={countryId}
+                      accountId={account.id}
+                    />
+                  )}
                 </TableCell>
-                <TableCell id="calls" className="p-0 text-center text-sm">
-                  <CellContent
-                    countryId={countryId}
-                    accountId={account.id}
-                    dateStart={dateStart}
-                    dateEnd={dateEnd}
-                    type="calls"
-                  />
+                <TableCell id="calls" className="p-0 px-1 text-center text-sm">
+                  {calls.isLoading ? (
+                    <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
+                  ) : (
+                    <CellCalls
+                      data={calls.data}
+                      countryId={countryId}
+                      accountId={account.id}
+                    />
+                  )}
                 </TableCell>
-                <TableCell id="mails" className="p-0 text-center text-sm">
-                  <CellContent
-                    countryId={countryId}
-                    accountId={account.id}
-                    dateStart={dateStart}
-                    dateEnd={dateEnd}
-                    type="mails"
-                  />
+                <TableCell id="mails" className="p-0 px-1 text-center text-sm">
+                  {mails.isLoading ? (
+                    <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
+                  ) : (
+                    <CellMails
+                      data={mails.data}
+                      countryId={countryId}
+                      accountId={account.id}
+                    />
+                  )}
                 </TableCell>
-                <TableCell id="products" className="p-0 text-center text-sm">
-                  <CellContent
-                    countryId={countryId}
-                    accountId={account.id}
-                    dateStart={dateStart}
-                    dateEnd={dateEnd}
-                    type="products"
-                  />
+                <TableCell
+                  id="products"
+                  className="p-0 px-1 text-center text-sm"
+                >
+                  {products.isLoading ? (
+                    <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
+                  ) : (
+                    <CellProducts
+                      data={products.data}
+                      countryId={countryId}
+                      accountId={account.id}
+                    />
+                  )}
                 </TableCell>
-                <TableCell id="info" className="p-0 text-center">
-                  <CellContent
-                    countryId={countryId}
-                    accountId={account.id}
-                    dateStart={dateStart}
-                    dateEnd={dateEnd}
-                    type="info"
-                  />
+                <TableCell id="info" className="p-0 px-1 text-center">
+                  {info.isLoading ? (
+                    <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
+                  ) : (
+                    <CellInfo
+                      data={info.data}
+                      countryId={countryId}
+                      accountId={account.id}
+                    />
+                  )}
                 </TableCell>
               </TableRow>
             );
           })
         )}
       </TableBody>
-      <TableFootContent />
+      <TableFootContent
+        orders={orders}
+        mails={mails}
+        calls={calls}
+        products={products}
+        countryId={countryId}
+      />
     </Table>
   );
 }
