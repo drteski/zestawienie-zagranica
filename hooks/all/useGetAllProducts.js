@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 const useGetAllProducts = () => {
   const getAllProducts = async () => {
     return await axios
-      .get("/api/products/all")
+      .get("/api/products/")
       .then((res) => res.data)
       .catch((error) => ({
         message: error,

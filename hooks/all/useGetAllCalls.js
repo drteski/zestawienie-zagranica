@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 const useGetAllCalls = () => {
   const getAllCalls = async () => {
     return await axios
-      .get("/api/calls/all")
+      .get("/api/calls")
       .then((res) => res.data)
       .catch((error) => ({
         message: error,

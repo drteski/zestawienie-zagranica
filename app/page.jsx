@@ -1,7 +1,7 @@
 "use client";
 
 import { Tabs, TabsContent, TabsList } from "@/components/ui/tabs";
-import CountriesList from "@/components/CountriesList";
+import NavCountries from "@/components/index/NavCountries";
 import CountryTableContainer from "@/components/tables/CountryTableContainer";
 import { TableContainer } from "@/components/tables/Table";
 import useGetCountries from "@/hooks/useGetCountries";
@@ -12,8 +12,7 @@ import useGetAllOrders from "@/hooks/all/useGetAllOrders";
 import useGetAllProducts from "@/hooks/all/useGetAllProducts";
 import useGetAllMails from "@/hooks/all/useGetAllMails";
 import useGetAllCalls from "@/hooks/all/useGetAllCalls";
-import { useEffect, useState } from "react";
-import HeaderCount from "@/components/HeaderCount";
+import HeaderSummary from "@/components/index/HeaderSummary";
 
 const HomePage = () => {
   const countries = useGetCountries();
@@ -22,34 +21,26 @@ const HomePage = () => {
   const mails = useGetAllMails();
   const calls = useGetAllCalls();
 
-  const [allOrders, setAllOrders] = useState(0);
-  useEffect(() => {
-    if (orders.isLoading) return;
-    const allOrders = orders.data.reduce((acc, curr) => acc + curr.count, 0);
-    setAllOrders(allOrders);
-  }, [orders]);
-
   return (
     <main className="h-[100dvh] p-4">
       <Tabs
         defaultValue="wszystkie"
         className="grid grid-cols-[200px_1fr] h-[calc(100dvh_-_32px)] gap-4"
       >
-        <TabsList className="h-full justify-between">
-          <div className="flex flex-col gap-1 items-start overflow-hidden">
-            <CountriesList />
+        <TabsList className="w-full h-full overflow-hidden justify-between">
+          <div className="flex flex-col gap-1 items-start h-[calc(100dvh_-_32px_-_64px)]">
+            <NavCountries />
           </div>
           <Button asChild>
             <Link href="edit">Konfiguracja</Link>
           </Button>
         </TabsList>
         <div className="h-full w-full bg-muted rounded-md overflow-hidden">
-          <HeaderCount
+          <HeaderSummary
             orders={orders}
             products={products}
             mails={mails}
             calls={calls}
-            allOrders={allOrders}
           />
           <div className="overflow-y-scroll mt-4 pb-7 h-[calc(100dvh_-_32px_-_64px)]">
             {countries.isLoading ? (

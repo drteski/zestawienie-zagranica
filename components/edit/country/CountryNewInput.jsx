@@ -42,7 +42,10 @@ const CountryNewInput = () => {
   });
 
   return (
-    <form onSubmit={handleCreateCountry.mutate} className="flex gap-2 px-2">
+    <form
+      onSubmit={handleCreateCountry.mutate}
+      className="flex gap-2 pl-2 pr-3 mt-1"
+    >
       <Input
         ref={inputRef}
         placeholder="Dodaj konto"

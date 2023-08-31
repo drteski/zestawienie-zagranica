@@ -3,7 +3,7 @@
 import { format, isToday, parseISO } from "date-fns";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const HeaderCount = ({ orders, allOrders, products, mails, calls }) => {
+const HeaderSummary = ({ orders, products, mails, calls }) => {
   return (
     <div className="grid grid-cols-6 items-center gap-2 px-4 my-4">
       <div className="flex flex-col">
@@ -36,7 +36,7 @@ const HeaderCount = ({ orders, allOrders, products, mails, calls }) => {
           <Skeleton className="h-9 w-full bg-primary/10" />
         ) : (
           <p className="bg-foreground rounded-md text-primary-foreground text-sm px-4 py-2">
-            {allOrders}
+            {orders.data.reduce((acc, curr) => acc + curr.count, 0)}
           </p>
         )}
       </div>
@@ -86,4 +86,4 @@ const HeaderCount = ({ orders, allOrders, products, mails, calls }) => {
   );
 };
 
-export default HeaderCount;
+export default HeaderSummary;

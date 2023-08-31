@@ -4,7 +4,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import CountryNameInput from "@/components/edit/country/CountryNameInput";
 import CountryDeleteButton from "@/components/edit/country/CountryDeleteButton";
 import CountryNewInput from "@/components/edit/country/CountryNewInput";
-//dupa
 
 const CountryEdit = ({ isLoading, data }) => {
   return (

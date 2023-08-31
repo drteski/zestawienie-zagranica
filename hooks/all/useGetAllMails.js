@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 const useGetAllMails = () => {
   const getAllMails = async () => {
     return await axios
-      .get("/api/mails/all")
+      .get("/api/mails")
       .then((res) => res.data)
       .catch((error) => ({
         message: error,
