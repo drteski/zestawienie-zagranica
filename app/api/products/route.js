@@ -32,18 +32,34 @@ export async function POST(request) {
         id: existing[0].id,
       },
       data: {
-        countryId: parseInt(countryId),
-        accountId: parseInt(accountId),
         count: parseInt(count),
+        Country: {
+          connect: {
+            id: parseInt(countryId),
+          },
+        },
+        Account: {
+          connect: {
+            id: parseInt(accountId),
+          },
+        },
       },
     });
     return NextResponse.json({ message: "Zaktualizowano", products });
   }
   const products = await prisma.productsCount.create({
     data: {
-      countryId: parseInt(countryId),
-      accountId: parseInt(accountId),
       count: parseInt(count),
+      Country: {
+        connect: {
+          id: parseInt(countryId),
+        },
+      },
+      Account: {
+        connect: {
+          id: parseInt(accountId),
+        },
+      },
     },
   });
   return NextResponse.json({ message: "Dodano", products });

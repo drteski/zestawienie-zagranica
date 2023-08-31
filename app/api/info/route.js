@@ -20,8 +20,16 @@ export async function POST(request) {
         id: existing[0].id,
       },
       data: {
-        countryId: parseInt(countryId),
-        accountId: parseInt(accountId),
+        Country: {
+          connect: {
+            id: parseInt(countryId),
+          },
+        },
+        Account: {
+          connect: {
+            id: parseInt(accountId),
+          },
+        },
         info,
       },
     });
@@ -30,8 +38,16 @@ export async function POST(request) {
   }
   const customInfo = await prisma.customInfo.create({
     data: {
-      countryId: parseInt(countryId),
-      accountId: parseInt(accountId),
+      Country: {
+        connect: {
+          id: parseInt(countryId),
+        },
+      },
+      Account: {
+        connect: {
+          id: parseInt(accountId),
+        },
+      },
       info,
     },
   });

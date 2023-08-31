@@ -41,12 +41,20 @@ const CellOrders = ({ data, countryId, accountId }) => {
       });
     },
   });
+
+  const numberInputOnWheelPreventChange = (e) => {
+    e.target.blur();
+    e.stopPropagation();
+  };
+
   return (
     <Input
       onChange={handleOrders.mutate}
       type="number"
       className="text-center border-0 bg-transparent"
       defaultValue={order}
+      onWheel={numberInputOnWheelPreventChange}
+      pattern="/^\d+$/"
     />
   );
 };

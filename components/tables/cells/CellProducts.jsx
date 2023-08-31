@@ -40,12 +40,20 @@ const CellProducts = ({ data, countryId, accountId }) => {
       });
     },
   });
+
+  const numberInputOnWheelPreventChange = (e) => {
+    e.target.blur();
+    e.stopPropagation();
+  };
+
   return (
     <Input
       onChange={handleProducts.mutate}
       type="number"
       className="text-center border-0 bg-transparent"
       defaultValue={product}
+      onWheel={numberInputOnWheelPreventChange}
+      pattern="/^\d+$/"
     />
   );
 };
