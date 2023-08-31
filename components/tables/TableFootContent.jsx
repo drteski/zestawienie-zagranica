@@ -25,17 +25,17 @@ const TableFootContent = ({ products, orders, mails, calls, countryId }) => {
           )}
         </TableCell>
         <TableCell className="text-center font-bold py-3">
-          {mails.isLoading ? (
-            <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
-          ) : (
-            <CellSum data={mails.data} countryId={countryId} />
-          )}
-        </TableCell>
-        <TableCell className="text-center font-bold py-3">
           {calls.isLoading ? (
             <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
           ) : (
             <CellSum data={calls.data} countryId={countryId} />
+          )}
+        </TableCell>
+        <TableCell className="text-center font-bold py-3">
+          {mails.isLoading ? (
+            <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
+          ) : (
+            <CellSum data={mails.data} countryId={countryId} />
           )}
         </TableCell>
         <TableCell className="text-center font-bold py-3">
