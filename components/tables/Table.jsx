@@ -35,6 +35,8 @@ export function TableContainer({ countryId, accounts }) {
     return 0;
   });
 
+  console.log(accounts, sortedAccounts);
+
   return (
     <Table>
       <TableHeadContent />
