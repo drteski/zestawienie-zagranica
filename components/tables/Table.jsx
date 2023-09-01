@@ -23,6 +23,18 @@ export function TableContainer({ countryId, accounts }) {
   const calls = useGetAllCalls();
   const info = useGetInfo();
 
+  const sortedAccounts = accounts.sort((a, b) => {
+    const nameA = a.name.toUpperCase();
+    const nameB = b.name.toUpperCase();
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+    return 0;
+  });
+
   return (
     <Table>
       <TableHeadContent />
@@ -37,7 +49,7 @@ export function TableContainer({ countryId, accounts }) {
             </TableCell>
           </TableRow>
         ) : (
-          accounts.map((account) => {
+          sortedAccounts.map((account) => {
             return (
               <TableRow
                 className="border-b border-b-foreground/5"
