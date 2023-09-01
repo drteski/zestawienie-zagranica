@@ -3,6 +3,9 @@ import prisma from "@/db";
 
 export async function GET() {
   const accounts = await prisma.account.findMany({
+    orderBy: {
+      name: "desc",
+    },
     include: {
       country: true,
     },
