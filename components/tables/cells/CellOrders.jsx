@@ -2,26 +2,21 @@
 
 import { useToast } from "@/components/ui/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 import axios from "axios";
 import { useState } from "react";
-import { isToday, parseISO } from "date-fns";
 import { Input } from "@/components/ui/input";
+import useInitialState from "@/hooks/useInitialState";
 
 const CellOrders = ({ data, countryId, accountId }) => {
-  const [order, setOrder] = useState(() => {
-    return data
-      .filter((country) => country.countryId === countryId)
-      .filter((account) => account.accountId === accountId)
-      .map((date) => (isToday(parseISO(date.createdAt)) ? date.count : 0))
-      .reduce((acc, curr) => acc + curr, 0);
-  });
+  const [check, setCheck] = useState(0);
+  const [order, setOrder] = useInitialState(data, countryId, accountId);
 
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const router = useRouter();
   const updateOrders = async (e) => {
-    setOrder(e.target.value);
+    if (e.target.value === "") e.target.value = 0;
+    if (check === parseInt(e.target.value)) return;
+    setOrder(parseInt(e.target.value));
     return await axios
       .post("/api/orders", {
         countryId,
@@ -35,10 +30,10 @@ const CellOrders = ({ data, countryId, accountId }) => {
     mutationFn: updateOrders,
     onSuccess: (res) => {
       queryClient.invalidateQueries(["allorders"]);
-      router.refresh();
-      toast({
-        title: `${res.message}`,
-      });
+      if (res)
+        toast({
+          title: `${res.message}`,
+        });
     },
   });
 
@@ -49,7 +44,8 @@ const CellOrders = ({ data, countryId, accountId }) => {
 
   return (
     <Input
-      onChange={handleOrders.mutate}
+      onFocus={(e) => setCheck(parseInt(e.target.value))}
+      onBlur={handleOrders.mutate}
       type="number"
       className="text-center border-0 bg-transparent"
       defaultValue={order}

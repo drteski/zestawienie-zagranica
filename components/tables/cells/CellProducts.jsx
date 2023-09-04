@@ -2,25 +2,26 @@
 
 import { useToast } from "@/components/ui/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 import axios from "axios";
 import { useState } from "react";
-import { isToday, parseISO } from "date-fns";
 import { Input } from "@/components/ui/input";
 
 const CellProducts = ({ data, countryId, accountId }) => {
+  const [check, setCheck] = useState(0);
   const [product, setProduct] = useState(() => {
-    return data
+    const filterData = data
       .filter((country) => country.countryId === countryId)
-      .filter((account) => account.accountId === accountId)
-      .map((date) => (isToday(parseISO(date.createdAt)) ? date.count : 0))
-      .reduce((acc, curr) => acc + curr, 0);
+      .filter((account) => account.accountId === accountId);
+    return filterData.length === 0
+      ? 0
+      : filterData[filterData.length - 1].count;
   });
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const router = useRouter();
   const updateProducts = async (e) => {
-    setProduct(e.target.value);
+    if (e.target.value === "") e.target.value = 0;
+    if (check === parseInt(e.target.value)) return;
+    setProduct(parseInt(e.target.value));
     return await axios
       .post("/api/products", {
         countryId,
@@ -34,10 +35,10 @@ const CellProducts = ({ data, countryId, accountId }) => {
     mutationFn: updateProducts,
     onSuccess: (res) => {
       queryClient.invalidateQueries(["allproducts"]);
-      router.refresh();
-      toast({
-        title: `${res.message}`,
-      });
+      if (res)
+        toast({
+          title: `${res.message}`,
+        });
     },
   });
 
@@ -47,14 +48,17 @@ const CellProducts = ({ data, countryId, accountId }) => {
   };
 
   return (
-    <Input
-      onChange={handleProducts.mutate}
-      type="number"
-      className="text-center border-0 bg-transparent"
-      defaultValue={product}
-      onWheel={numberInputOnWheelPreventChange}
-      pattern="/^\d+$/"
-    />
+    <>
+      <Input
+        onFocus={(e) => setCheck(parseInt(e.target.value))}
+        onBlur={handleProducts.mutate}
+        type="number"
+        className="text-center border-0 bg-transparent"
+        defaultValue={product}
+        onWheel={numberInputOnWheelPreventChange}
+        pattern="/^\d+$/"
+      />
+    </>
   );
 };
 

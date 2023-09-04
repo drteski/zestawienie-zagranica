@@ -2,25 +2,20 @@
 
 import { useToast } from "@/components/ui/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 import axios from "axios";
 import { useState } from "react";
-import { isToday, parseISO } from "date-fns";
 import { Input } from "@/components/ui/input";
+import useInitialState from "@/hooks/useInitialState";
 
 const CellCalls = ({ data, countryId, accountId }) => {
-  const [cell, setCell] = useState(() => {
-    return data
-      .filter((country) => country.countryId === countryId)
-      .filter((account) => account.accountId === accountId)
-      .map((date) => (isToday(parseISO(date.createdAt)) ? date.count : 0))
-      .reduce((acc, curr) => acc + curr, 0);
-  });
+  const [check, setCheck] = useState(0);
+  const [cell, setCell] = useInitialState(data, countryId, accountId);
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const router = useRouter();
   const updateCalls = async (e) => {
-    setCell(e.target.value);
+    if (e.target.value === "") e.target.value = 0;
+    if (check === parseInt(e.target.value)) return;
+    setCell(parseInt(e.target.value));
     return await axios
       .post("/api/calls", {
         countryId,
@@ -34,10 +29,10 @@ const CellCalls = ({ data, countryId, accountId }) => {
     mutationFn: updateCalls,
     onSuccess: (res) => {
       queryClient.invalidateQueries(["allcalls"]);
-      router.refresh();
-      toast({
-        title: `${res.message}`,
-      });
+      if (res)
+        toast({
+          title: `${res.message}`,
+        });
     },
   });
 
@@ -48,7 +43,8 @@ const CellCalls = ({ data, countryId, accountId }) => {
 
   return (
     <Input
-      onChange={handleCalls.mutate}
+      onFocus={(e) => setCheck(parseInt(e.target.value))}
+      onBlur={handleCalls.mutate}
       type="number"
       className="text-center border-0 bg-transparent"
       defaultValue={cell}

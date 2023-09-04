@@ -8,6 +8,7 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 
 const CellInfo = ({ data, countryId, accountId }) => {
+  const [check, setCheck] = useState("");
   const [info, setInfo] = useState(() => {
     const filteredInfo = data
       .filter((country) => country.countryId === countryId)
@@ -17,8 +18,8 @@ const CellInfo = ({ data, countryId, accountId }) => {
   });
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const router = useRouter();
   const updateAccount = async (e) => {
+    if (check === e.target.value) return;
     setInfo(e.target.value);
     return await axios
       .post("/api/info", {
@@ -33,15 +34,16 @@ const CellInfo = ({ data, countryId, accountId }) => {
     mutationFn: updateAccount,
     onSuccess: (res) => {
       queryClient.invalidateQueries(["info"]);
-      router.refresh();
-      toast({
-        title: `${res.message}`,
-      });
+      if (res)
+        toast({
+          title: `${res.message}`,
+        });
     },
   });
   return (
     <Input
-      onChange={handleAccount.mutate}
+      onFocus={(e) => setCheck(e.target.value)}
+      onBlur={handleAccount.mutate}
       className="text-center px-4 border-0 bg-transparent"
       defaultValue={info}
     />
