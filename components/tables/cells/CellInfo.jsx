@@ -2,7 +2,6 @@
 
 import { useToast } from "@/components/ui/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 import axios from "axios";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
