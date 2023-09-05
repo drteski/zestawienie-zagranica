@@ -4,7 +4,6 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import useGetCountries from "@/hooks/useGetCountries";
 import { Skeleton } from "@/components/ui/skeleton";
-import slugify from "slugify";
 import {
   CarbonChevronRight,
   CarbonCollapseAll,
@@ -51,7 +50,7 @@ const Navbar = () => {
         )}
       </div>
       <Button className="w-full" asChild>
-        <Link href="/config">Konfiguracja</Link>
+        <Link href={`/config`}>Konfiguracja</Link>
       </Button>
     </div>
   );
