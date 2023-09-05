@@ -1,4 +1,4 @@
-import "./globals.css";
+import "../globals.css";
 import { Inter } from "next/font/google";
 import WrapperProviders from "@/components/layout/WrapperProviders";
 import { Toaster } from "@/components/ui/toaster";
@@ -8,13 +8,13 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "Zestawienie Zagranica",
+  title: "Konfiguracja",
 };
 
-const RootLayout = ({ children }) => {
+const RootLayoutConfigPage = ({ children }) => {
   return (
     <html lang="en">
-      <body className={`${inter.className} overflow-hidden`}>
+      <body className={`${inter.className} overflow-clip`}>
         <WrapperProviders>{children}</WrapperProviders>
         <Toaster />
       </body>
@@ -22,4 +22,4 @@ const RootLayout = ({ children }) => {
   );
 };
 
-export default RootLayout;
+export default RootLayoutConfigPage;

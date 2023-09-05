@@ -13,7 +13,7 @@ const EditPage = () => {
 
   return (
     <main className="h-[100dvh] p-4">
-      <div className="p-4 bg-muted h-[calc(100dvh_-_32px)] flex flex-col rounded-md overflow-hidden">
+      <div className="p-4 bg-muted h-[calc(100dvh_-_32px)] flex flex-col rounded-md overflow-clip">
         <div className="mb-8">
           <Button asChild>
             <Link href="/">Wróć</Link>

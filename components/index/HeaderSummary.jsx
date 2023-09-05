@@ -2,85 +2,98 @@
 
 import { format, isToday, parseISO } from "date-fns";
 import { Skeleton } from "@/components/ui/skeleton";
+import useGetAllOrders from "@/hooks/all/useGetAllOrders";
+import useGetAllProducts from "@/hooks/all/useGetAllProducts";
+import useGetAllMails from "@/hooks/all/useGetAllMails";
+import useGetAllCalls from "@/hooks/all/useGetAllCalls";
 
-const HeaderSummary = ({ orders, products, mails, calls }) => {
+const HeaderSummary = () => {
+  const orders = useGetAllOrders();
+  const products = useGetAllProducts();
+  const mails = useGetAllMails();
+  const calls = useGetAllCalls();
   return (
-    <div className="grid grid-cols-6 items-center gap-2 px-4 my-4">
-      <div className="flex flex-col">
-        <p className="pb-1 text-sm">Data:</p>
-        {orders.isLoading ? (
-          <Skeleton className="h-9 w-full bg-primary/10" />
-        ) : (
-          <p className="bg-foreground rounded-md text-primary-foreground text-sm px-4 py-2">
-            {format(new Date(), "dd-MM-y")}
-          </p>
-        )}
-      </div>
-      <div className="flex flex-col">
-        <p className="pb-1 text-sm">Zamówienia:</p>
-        {orders.isLoading ? (
-          <Skeleton className="h-9 w-full bg-primary/10" />
-        ) : (
-          <p className="bg-foreground rounded-md text-primary-foreground text-sm px-4 py-2">
-            {orders.data
-              .map((order) =>
-                isToday(parseISO(order.createdAt)) ? order.count : 0,
-              )
-              .reduce((acc, cur) => acc + cur, 0)}
-          </p>
-        )}
-      </div>
-      <div className="flex flex-col">
-        <p className="pb-1 text-sm">Zamówienia narastająco:</p>
-        {orders.isLoading ? (
-          <Skeleton className="h-9 w-full bg-primary/10" />
-        ) : (
-          <p className="bg-foreground rounded-md text-primary-foreground text-sm px-4 py-2">
-            {orders.data.reduce((acc, curr) => acc + curr.count, 0)}
-          </p>
-        )}
-      </div>
-      <div className="flex flex-col">
-        <p className="pb-1 text-sm">Telefony:</p>
-        {calls.isLoading ? (
-          <Skeleton className="h-9 w-full bg-primary/10" />
-        ) : (
-          <p className="bg-foreground rounded-md text-primary-foreground text-sm px-4 py-2">
-            {calls.data
-              .map((order) =>
-                isToday(parseISO(order.createdAt)) ? order.count : 0,
-              )
-              .reduce((acc, cur) => acc + cur, 0)}
-          </p>
-        )}
-      </div>
-      <div className="flex flex-col">
-        <p className="pb-1 text-sm">Maile:</p>
-        {mails.isLoading ? (
-          <Skeleton className="h-9 w-full bg-primary/10" />
-        ) : (
-          <p className="bg-foreground rounded-md text-primary-foreground text-sm px-4 py-2">
-            {mails.data
-              .map((order) =>
-                isToday(parseISO(order.createdAt)) ? order.count : 0,
-              )
-              .reduce((acc, cur) => acc + cur, 0)}
-          </p>
-        )}
-      </div>
-      <div className="flex flex-col">
-        <p className="pb-1 text-sm">Aktywne produkty:</p>
-        {products.isLoading ? (
-          <Skeleton className="h-9 w-full bg-primary/10" />
-        ) : (
-          <p className="bg-foreground rounded-md text-primary-foreground text-sm px-4 py-2">
-            {products.data
-              .map((order) =>
-                isToday(parseISO(order.createdAt)) ? order.count : 0,
-              )
-              .reduce((acc, cur) => acc + cur, 0)}
-          </p>
-        )}
+    <div className="absolute  left-0 bottom-0 right-0 flex flex-col p-4 bg-primary text-primary-foreground">
+      <p className="mb-4 text-2xl uppercase font-bold">
+        Podsumowanie wszystkich krajów
+      </p>
+      <div className="grid grid-cols-6 items-center gap-2">
+        <div className="flex flex-col">
+          <p className="pb-1 text-xs">Data:</p>
+          {orders.isLoading ? (
+            <Skeleton className="h-7 w-full bg-primary-foreground/10" />
+          ) : (
+            <p className="rounded-md text-xl font-black tracking-wider px-0 py-0">
+              {format(new Date(), "dd-MM-y")}
+            </p>
+          )}
+        </div>
+        <div className="flex flex-col">
+          <p className="pb-1 text-xs">Zamówienia:</p>
+          {orders.isLoading ? (
+            <Skeleton className="h-7 w-full bg-primary-foreground/10" />
+          ) : (
+            <p className="rounded-md text-xl font-black tracking-wider px-0 py-0">
+              {orders.data
+                .map((order) =>
+                  isToday(parseISO(order.createdAt)) ? order.count : 0,
+                )
+                .reduce((acc, cur) => acc + cur, 0)}
+            </p>
+          )}
+        </div>
+        <div className="flex flex-col">
+          <p className="pb-1 text-xs">Zamówienia narastająco:</p>
+          {orders.isLoading ? (
+            <Skeleton className="h-7 w-full bg-primary-foreground/10" />
+          ) : (
+            <p className="rounded-md text-xl font-black tracking-wider px-0 py-0">
+              {orders.data.reduce((acc, curr) => acc + curr.count, 0)}
+            </p>
+          )}
+        </div>
+        <div className="flex flex-col">
+          <p className="pb-1 text-xs">Telefony:</p>
+          {calls.isLoading ? (
+            <Skeleton className="h-7 w-full bg-primary-foreground/10" />
+          ) : (
+            <p className="rounded-md text-xl font-black tracking-wider px-0 py-0">
+              {calls.data
+                .map((order) =>
+                  isToday(parseISO(order.createdAt)) ? order.count : 0,
+                )
+                .reduce((acc, cur) => acc + cur, 0)}
+            </p>
+          )}
+        </div>
+        <div className="flex flex-col">
+          <p className="pb-1 text-xs">Maile:</p>
+          {mails.isLoading ? (
+            <Skeleton className="h-7 w-full bg-primary-foreground/10" />
+          ) : (
+            <p className="rounded-md text-xl font-black tracking-wider px-0 py-0">
+              {mails.data
+                .map((order) =>
+                  isToday(parseISO(order.createdAt)) ? order.count : 0,
+                )
+                .reduce((acc, cur) => acc + cur, 0)}
+            </p>
+          )}
+        </div>
+        <div className="flex flex-col">
+          <p className="pb-1 text-xs">Aktywne produkty:</p>
+          {products.isLoading ? (
+            <Skeleton className="h-7 w-full bg-primary-foreground/10" />
+          ) : (
+            <p className="rounded-md text-xl font-black tracking-wider px-0 py-0">
+              {products.data
+                .map((order) =>
+                  isToday(parseISO(order.createdAt)) ? order.count : 0,
+                )
+                .reduce((acc, cur) => acc + cur, 0)}
+            </p>
+          )}
+        </div>
       </div>
     </div>
   );

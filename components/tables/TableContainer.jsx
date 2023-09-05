@@ -38,7 +38,7 @@ export function TableContainer({ countryId, accounts }) {
   return (
     <Table>
       <TableHeadContent />
-      <TableBody className="">
+      <TableBody>
         {accounts.length === 0 ? (
           <TableRow>
             <TableCell

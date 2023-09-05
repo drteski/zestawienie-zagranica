@@ -6,6 +6,9 @@ export async function GET(request, { params }) {
     where: {
       id: parseInt(params.id),
     },
+    include: {
+      accounts: true,
+    },
   });
   return NextResponse.json({ ...country });
 }
