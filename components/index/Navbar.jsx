@@ -12,7 +12,7 @@ import {
 const Navbar = () => {
   const countries = useGetCountries();
   return (
-    <div className="w-full flex flex-col gap-1 bg-muted h-[calc(100dvh_-_32px)] rounded-md">
+    <div className="w-full grid grid-rows-[40px_1fr_40px] gap-1 bg-muted h-[calc(100dvh_-_32px)] rounded-md">
       <Button className="w-full items-start justify-start" asChild>
         <Link href="/" className="flex items-center justify-between">
           Wszystko <CarbonCollapseAll />
@@ -49,7 +49,7 @@ const Navbar = () => {
           </>
         )}
       </div>
-      <Button className="w-full" asChild>
+      <Button className="w-full jusify-self-end" asChild>
         <Link href={`/config`}>Konfiguracja</Link>
       </Button>
     </div>

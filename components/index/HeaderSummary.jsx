@@ -86,11 +86,7 @@ const HeaderSummary = () => {
             <Skeleton className="h-7 w-full bg-primary-foreground/10" />
           ) : (
             <p className="rounded-md text-xl font-black tracking-wider px-0 py-0">
-              {products.data
-                .map((order) =>
-                  isToday(parseISO(order.createdAt)) ? order.count : 0,
-                )
-                .reduce((acc, cur) => acc + cur, 0)}
+              {products.data.reduce((acc, cur) => acc + cur.count, 0)}
             </p>
           )}
         </div>
