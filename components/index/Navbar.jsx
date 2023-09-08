@@ -8,9 +8,12 @@ import {
   CarbonChevronRight,
   CarbonCollapseAll,
 } from "@/components/layout/Icons";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
   const countries = useGetCountries();
+  const path = usePathname();
+  const currentCountry = parseInt(path.replace("/country/", ""));
   return (
     <div className="w-full grid grid-rows-[40px_1fr_40px] gap-1 bg-muted h-[calc(100dvh_-_32px)] rounded-md">
       <Button className="w-full items-start justify-start" asChild>
@@ -34,7 +37,9 @@ const Navbar = () => {
               <Button
                 key={country.name}
                 variant="ghost"
-                className="w-full items-start justify-start hover:bg-slate-500/10"
+                className={`w-full items-start justify-start ${
+                  country.id === currentCountry ? "bg-gray-300 " : ""
+                }hover:bg-slate-500/10`}
                 asChild
               >
                 <Link
