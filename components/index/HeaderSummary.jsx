@@ -17,7 +17,7 @@ const HeaderSummary = () => {
       <p className="mb-4 text-2xl uppercase font-bold">
         Podsumowanie wszystkich krajów
       </p>
-      <div className="grid grid-cols-6 items-center gap-2">
+      <div className="grid grid-cols-8 items-center gap-2">
         <div className="flex flex-col">
           <p className="pb-1 text-xs">Data:</p>
           {orders.isLoading ? (
@@ -43,7 +43,7 @@ const HeaderSummary = () => {
           )}
         </div>
         <div className="flex flex-col">
-          <p className="pb-1 text-xs">Zamówienia narastająco:</p>
+          <p className="pb-1 text-xs">Zamówienia nar:</p>
           {orders.isLoading ? (
             <Skeleton className="h-7 w-full bg-primary-foreground/10" />
           ) : (
@@ -67,6 +67,16 @@ const HeaderSummary = () => {
           )}
         </div>
         <div className="flex flex-col">
+          <p className="pb-1 text-xs">Telefony nar:</p>
+          {calls.isLoading ? (
+            <Skeleton className="h-7 w-full bg-primary-foreground/10" />
+          ) : (
+            <p className="rounded-md text-xl font-black tracking-wider px-0 py-0">
+              {calls.data.reduce((acc, curr) => acc + curr.count, 0)}
+            </p>
+          )}
+        </div>
+        <div className="flex flex-col">
           <p className="pb-1 text-xs">Maile:</p>
           {mails.isLoading ? (
             <Skeleton className="h-7 w-full bg-primary-foreground/10" />
@@ -81,7 +91,17 @@ const HeaderSummary = () => {
           )}
         </div>
         <div className="flex flex-col">
-          <p className="pb-1 text-xs">Aktywne produkty:</p>
+          <p className="pb-1 text-xs">Maile nar:</p>
+          {calls.isLoading ? (
+            <Skeleton className="h-7 w-full bg-primary-foreground/10" />
+          ) : (
+            <p className="rounded-md text-xl font-black tracking-wider px-0 py-0">
+              {mails.data.reduce((acc, curr) => acc + curr.count, 0)}
+            </p>
+          )}
+        </div>
+        <div className="flex flex-col">
+          <p className="pb-1 text-xs">Akt produkty:</p>
           {products.isLoading ? (
             <Skeleton className="h-7 w-full bg-primary-foreground/10" />
           ) : (

@@ -1,9 +1,10 @@
 "use client";
 
-import CountryTableContainer from "@/components/tables/CountryTableContainer";
-import { TableContainer } from "@/components/tables/TableContainer";
+import { Table } from "@/components/ui/table";
 import useGetCountries from "@/hooks/useGetCountries";
 import { Skeleton } from "@/components/ui/skeleton";
+import { TableContainerAll } from "@/components/tables/TableContainerAll";
+import TableHeadContent from "@/components/tables/TableHeadContentAll";
 
 const HomePage = () => {
   const countries = useGetCountries();
@@ -24,22 +25,25 @@ const HomePage = () => {
             </p>
           </div>
         ) : (
-          <div className="relative overflow-clip">
-            {countries.data.map((country) => {
-              return (
-                <CountryTableContainer
-                  key={country.name}
-                  country={country.name}
-                  countryId={country.id}
-                >
-                  <TableContainer
-                    countryId={country.id}
-                    accounts={country.accounts}
-                  />
-                </CountryTableContainer>
-              );
-            })}
-          </div>
+          <>
+            <div className="relative overflow-clip">
+              <div className="flex border border-primary/5 rounded-md overflow-clip mb-4">
+                <Table>
+                  <TableHeadContent />
+                  {countries.data.map((country) => {
+                    return (
+                      <TableContainerAll
+                        key={country.id}
+                        countryId={country.id}
+                        accounts={country.accounts}
+                        countryName={country.name}
+                      />
+                    );
+                  })}
+                </Table>
+              </div>
+            </div>
+          </>
         )}
       </div>
     </>

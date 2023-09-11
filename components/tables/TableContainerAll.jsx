@@ -1,8 +1,6 @@
 "use client";
 
-import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
-import TableHeadContent from "@/components/tables/TableHeadContent";
-import TableFootContent from "@/components/tables/TableFootContent";
+import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import useGetAllOrders from "@/hooks/all/useGetAllOrders";
 import useGetAllProducts from "@/hooks/all/useGetAllProducts";
 import useGetAllMails from "@/hooks/all/useGetAllMails";
@@ -15,8 +13,9 @@ import CellProducts from "@/components/tables/cells/CellProducts";
 import CellInfo from "@/components/tables/cells/CellInfo";
 import useGetInfo from "@/hooks/useGetInfo";
 import CellAllOrders from "@/components/tables/cells/CellAllOrders";
+import TableFootContentAll from "@/components/tables/TableFootContentAll";
 
-export function TableContainer({ countryId, accounts }) {
+export function TableContainerAll({ countryId, accounts, countryName }) {
   const orders = useGetAllOrders();
   const products = useGetAllProducts();
   const mails = useGetAllMails();
@@ -36,8 +35,7 @@ export function TableContainer({ countryId, accounts }) {
   });
 
   return (
-    <Table>
-      <TableHeadContent />
+    <>
       <TableBody>
         {accounts.length === 0 ? (
           <TableRow>
@@ -49,12 +47,21 @@ export function TableContainer({ countryId, accounts }) {
             </TableCell>
           </TableRow>
         ) : (
-          sortedAccounts.map((account) => {
+          sortedAccounts.map((account, index) => {
             return (
               <TableRow
                 className="border-b border-b-foreground/5"
                 key={account.name}
               >
+                {index === 0 && (
+                  <TableCell
+                    rowSpan={sortedAccounts.length}
+                    id="country"
+                    className="py-0 text-center font-bold text-xl border-r"
+                  >
+                    {countryName}
+                  </TableCell>
+                )}
                 <TableCell id="account" className="py-0 font-medium text-sm">
                   {account.name}
                 </TableCell>
@@ -95,7 +102,7 @@ export function TableContainer({ countryId, accounts }) {
                   )}
                 </TableCell>
                 <TableCell
-                  id="allorders"
+                  id="allcalls"
                   className="p-0 px-1 text-center text-sm"
                 >
                   {calls.isLoading ? (
@@ -120,7 +127,7 @@ export function TableContainer({ countryId, accounts }) {
                   )}
                 </TableCell>
                 <TableCell
-                  id="allorders"
+                  id="allmails"
                   className="p-0 px-1 text-center text-sm"
                 >
                   {mails.isLoading ? (
@@ -162,14 +169,14 @@ export function TableContainer({ countryId, accounts }) {
             );
           })
         )}
+        <TableFootContentAll
+          orders={orders}
+          mails={mails}
+          calls={calls}
+          products={products}
+          countryId={countryId}
+        />
       </TableBody>
-      <TableFootContent
-        orders={orders}
-        mails={mails}
-        calls={calls}
-        products={products}
-        countryId={countryId}
-      />
-    </Table>
+    </>
   );
 }

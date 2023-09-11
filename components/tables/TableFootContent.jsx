@@ -33,10 +33,24 @@ const TableFootContent = ({ products, orders, mails, calls, countryId }) => {
           )}
         </TableCell>
         <TableCell className="text-center font-medium text-base py-2">
+          {orders.isLoading ? (
+            <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
+          ) : (
+            <CellAllSum data={calls.data} countryId={countryId} />
+          )}
+        </TableCell>
+        <TableCell className="text-center font-medium text-base py-2">
           {mails.isLoading ? (
             <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
           ) : (
             <CellSum data={mails.data} countryId={countryId} />
+          )}
+        </TableCell>
+        <TableCell className="text-center font-medium text-base py-2">
+          {orders.isLoading ? (
+            <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
+          ) : (
+            <CellAllSum data={mails.data} countryId={countryId} />
           )}
         </TableCell>
         <TableCell className="text-center font-medium text-base py-2">

@@ -4,6 +4,7 @@ const TableHeadContent = () => {
   return (
     <TableHeader className="sticky top-[0] after:content-[''] after:absolute after:bottom-0 after:w-full after:h-0.5 after:bg-gray-200">
       <TableRow>
+        <TableHead className="bg-gray-200 uppercase text-xs text-primary font-bold border-0 py-3"></TableHead>
         <TableHead className="bg-gray-200 uppercase text-xs w-[12%] text-primary font-bold border-0 py-3">
           Konto
         </TableHead>
