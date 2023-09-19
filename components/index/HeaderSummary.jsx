@@ -92,7 +92,7 @@ const HeaderSummary = () => {
         </div>
         <div className="flex flex-col">
           <p className="pb-1 text-xs">Maile nar:</p>
-          {calls.isLoading ? (
+          {mails.isLoading ? (
             <Skeleton className="h-7 w-full bg-primary-foreground/10" />
           ) : (
             <p className="rounded-md text-xl font-black tracking-wider px-0 py-0">
