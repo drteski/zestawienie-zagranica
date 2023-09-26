@@ -7,6 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import {
   CarbonChevronRight,
   CarbonCollapseAll,
+  CarbonReportData,
 } from "@/components/layout/Icons";
 import { usePathname } from "next/navigation";
 
@@ -16,6 +17,16 @@ const Navbar = () => {
   const currentCountry = parseInt(path.replace("/country/", ""));
   return (
     <div className="w-full grid grid-rows-[40px_1fr_40px] gap-1 bg-muted h-[calc(100dvh_-_32px)] rounded-md">
+      {/*<div className="w-full grid grid-rows-[40px_40px_1fr_40px] gap-1 bg-muted h-[calc(100dvh_-_32px)] rounded-md">*/}
+      {/*<Button className="w-full items-start justify-start" asChild>*/}
+      {/*  <Link*/}
+      {/*    href="/reports"*/}
+      {/*    className="flex items-center bg-slate-500 hover:bg-slate-600 justify-between"*/}
+      {/*  >*/}
+      {/*    Raporty*/}
+      {/*    <CarbonReportData />*/}
+      {/*  </Link>*/}
+      {/*</Button>*/}
       <Button className="w-full items-start justify-start" asChild>
         <Link href="/" className="flex items-center justify-between">
           Wszystko <CarbonCollapseAll />
