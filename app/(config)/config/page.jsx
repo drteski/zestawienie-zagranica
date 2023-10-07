@@ -6,10 +6,23 @@ import useGetCountries from "@/hooks/useGetCountries";
 import useGetAccounts from "@/hooks/useGetAccounts";
 import CountryEdit from "@/components/edit/country/CountryEdit";
 import AccountEdit from "@/components/edit/account/AccountEdit";
+import { useRouter } from "next/navigation";
+import cookieCutter from "@boiseitguru/cookie-cutter";
+import { useEffect, useState } from "react";
 
 const EditPage = () => {
   const countries = useGetCountries();
   const accounts = useGetAccounts();
+  const router = useRouter();
+  const [auth, setAuth] = useState(false);
+  useEffect(() => {
+    const cookieAuth = cookieCutter.get("authorized")
+      ? JSON.parse(cookieCutter.get("authorized"))
+      : false;
+    setAuth(cookieAuth);
+  }, []);
+
+  if (!auth) return router.push("/auth?callbackUrl=config");
 
   return (
     <main className="h-[100dvh] p-4">

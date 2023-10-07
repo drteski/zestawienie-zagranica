@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import DateSelect from "@/components/index/DateSelect";
 import { Skeleton } from "@/components/ui/skeleton";
 import useGetDateRange from "@/hooks/useGetDateRange";
+import { useRouter } from "next/navigation";
+import cookieCutter from "@boiseitguru/cookie-cutter";
 
 const ReportsPage = () => {
   const { data, isLoading } = useGetDateRange();
@@ -12,6 +14,11 @@ const ReportsPage = () => {
     if (isLoading) return;
     return setOption(`${data[0].month}-${data[0].year}`);
   }, [data]);
+  const router = useRouter();
+  const cookieAuth = cookieCutter.get("authorized")
+    ? JSON.parse(cookieCutter.get("authorized"))
+    : false;
+  if (!cookieAuth) return router.push("/auth?callbackUrl=");
   return (
     <div className="p-4">
       <div className="flex items-center">

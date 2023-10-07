@@ -4,11 +4,22 @@ import { Skeleton } from "@/components/ui/skeleton";
 import CountryTableContainer from "@/components/tables/CountryTableContainer";
 import { TableContainer } from "@/components/tables/TableContainer";
 import useGetCountry from "@/hooks/useGetCountry";
+import { useRouter } from "next/navigation";
+import cookieCutter from "@boiseitguru/cookie-cutter";
+import { useEffect, useState } from "react";
 
 const CountryPage = ({ params }) => {
   const id = parseInt(params.id[0]);
   const country = useGetCountry(id);
-
+  const router = useRouter();
+  const [auth, setAuth] = useState(false);
+  useEffect(() => {
+    const cookieAuth = cookieCutter.get("authorized")
+      ? JSON.parse(cookieCutter.get("authorized"))
+      : false;
+    setAuth(cookieAuth);
+  }, []);
+  if (!auth) return router.push(`/auth?callbackUrl=country/${id}`);
   return (
     <>
       {country.isLoading ? (
