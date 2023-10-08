@@ -5,21 +5,10 @@ import useGetCountries from "@/hooks/useGetCountries";
 import { Skeleton } from "@/components/ui/skeleton";
 import { TableContainerAll } from "@/components/tables/TableContainerAll";
 import TableHeadContent from "@/components/tables/TableHeadContentAll";
-import { useRouter } from "next/navigation";
-import cookieCutter from "@boiseitguru/cookie-cutter";
-import { useEffect, useState } from "react";
 
 const HomePage = () => {
   const countries = useGetCountries();
-  const router = useRouter();
-  const [auth, setAuth] = useState(false);
-  useEffect(() => {
-    const cookieAuth = cookieCutter.get("authorized")
-      ? JSON.parse(cookieCutter.get("authorized"))
-      : false;
-    setAuth(cookieAuth);
-  }, []);
-  if (!auth) return router.push("/auth?callbackUrl=");
+
   return (
     <>
       <h1 className="p-4 text-2xl uppercase font-bold">Wszystkie kraje</h1>
