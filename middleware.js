@@ -15,8 +15,14 @@ const middleware = async (request) => {
   if (matchesProtectedPaths) {
     const token = await getToken({ req: request, secret });
     if (!token) {
+      if (pathname === "/") {
+        return NextResponse.redirect(`${process.env.NEXTAUTH_URL}auth`);
+      }
       const url = new URL("/auth", request.url);
-      url.searchParams.set("callbackUrl", encodeURI(request.url));
+      url.searchParams.set(
+        "callbackUrl",
+        encodeURI(`${process.env.NEXTAUTH_URL}${pathname}`),
+      );
       return NextResponse.redirect(url);
     }
     return NextResponse.next();
