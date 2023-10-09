@@ -21,8 +21,9 @@ const middleware = async (request) => {
       const url = new URL("/auth", request.url);
       url.searchParams.set(
         "callbackUrl",
-        encodeURI(`${process.env.NEXTAUTH_URL}${pathname}`),
+        encodeURI(`${process.env.NEXTAUTH_URL}${pathname.replace("/", "")}`),
       );
+      console.log(url);
       return NextResponse.redirect(url);
     }
     return NextResponse.next();
