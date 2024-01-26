@@ -14,9 +14,16 @@ import CellInfo from "@/components/tables/cells/CellInfo";
 import useGetInfo from "@/hooks/useGetInfo";
 import CellAllOrders from "@/components/tables/cells/CellAllOrders";
 import TableFootContentAll from "@/components/tables/TableFootContentAll";
+import useGetAllReturns from "@/hooks/all/useGetAllReturns";
+import useGetAllCorrect from "@/hooks/all/useGetAllCorrect";
+import CellReturns from "@/components/tables/cells/CellReturns";
+import CellCorrects from "@/components/tables/cells/CellCorrect";
+import CellPercent from "@/components/tables/cells/CellPercent";
 
 export function TableContainerAll({ countryId, accounts, countryName }) {
   const orders = useGetAllOrders();
+  const returns = useGetAllReturns();
+  const correct = useGetAllCorrect();
   const products = useGetAllProducts();
   const mails = useGetAllMails();
   const calls = useGetAllCalls();
@@ -57,7 +64,7 @@ export function TableContainerAll({ countryId, accounts, countryName }) {
                   <TableCell
                     rowSpan={sortedAccounts.length}
                     id="country"
-                    className="py-0 text-center font-bold text-xl border-r"
+                    className="py-0 px-2 text-center font-bold text-normal border-r"
                   >
                     {countryName}
                   </TableCell>
@@ -85,6 +92,96 @@ export function TableContainerAll({ countryId, accounts, countryName }) {
                   ) : (
                     <CellAllOrders
                       data={orders.data}
+                      countryId={countryId}
+                      accountId={account.id}
+                    />
+                  )}
+                </TableCell>
+                <TableCell
+                  id="returns"
+                  className="p-0 px-1 text-center text-sm"
+                >
+                  {returns.isLoading ? (
+                    <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
+                  ) : (
+                    <CellReturns
+                      data={returns.data}
+                      countryId={countryId}
+                      accountId={account.id}
+                    />
+                  )}
+                </TableCell>
+                <TableCell
+                  id="allreturns"
+                  className="p-0 px-1 text-center text-sm"
+                >
+                  {returns.isLoading ? (
+                    <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
+                  ) : (
+                    <CellAllOrders
+                      data={returns.data}
+                      countryId={countryId}
+                      accountId={account.id}
+                    />
+                  )}
+                </TableCell>
+                <TableCell
+                  id="allreturnsp"
+                  className="p-0 px-1 text-center text-sm"
+                >
+                  {returns.isLoading ? (
+                    <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
+                  ) : orders.isLoading ? (
+                    <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
+                  ) : (
+                    <CellPercent
+                      orders={orders.data}
+                      data={returns.data}
+                      countryId={countryId}
+                      accountId={account.id}
+                    />
+                  )}
+                </TableCell>
+                <TableCell
+                  id="correct"
+                  className="p-0 px-1 text-center text-sm"
+                >
+                  {correct.isLoading ? (
+                    <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
+                  ) : (
+                    <CellCorrects
+                      data={correct.data}
+                      countryId={countryId}
+                      accountId={account.id}
+                    />
+                  )}
+                </TableCell>
+                <TableCell
+                  id="allcorrect"
+                  className="p-0 px-1 text-center text-sm"
+                >
+                  {correct.isLoading ? (
+                    <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
+                  ) : (
+                    <CellAllOrders
+                      data={correct.data}
+                      countryId={countryId}
+                      accountId={account.id}
+                    />
+                  )}
+                </TableCell>
+                <TableCell
+                  id="allcorrectp"
+                  className="p-0 px-1 text-center text-sm"
+                >
+                  {correct.isLoading ? (
+                    <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
+                  ) : orders.isLoading ? (
+                    <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
+                  ) : (
+                    <CellPercent
+                      orders={orders.data}
+                      data={correct.data}
                       countryId={countryId}
                       accountId={account.id}
                     />
@@ -173,6 +270,8 @@ export function TableContainerAll({ countryId, accounts, countryName }) {
           orders={orders}
           mails={mails}
           calls={calls}
+          returns={returns}
+          correct={correct}
           products={products}
           countryId={countryId}
         />
