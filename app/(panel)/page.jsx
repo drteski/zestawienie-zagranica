@@ -11,7 +11,9 @@ const HomePage = () => {
 
   return (
     <>
-      <h1 className="p-4 text-2xl uppercase font-bold">Wszystkie kraje</h1>
+      <h1 className="p-4 text-2xl text-right uppercase font-bold">
+        Wszystkie kraje
+      </h1>
       <div className="overflow-y-scroll pl-4 pr-3 h-[calc(100dvh_-_128px_-_96px)]">
         {countries.isLoading ? (
           <Skeleton className="my-4 h-[calc(100dvh_-_128px_-_96px_-_32px)] bg-foreground/5" />

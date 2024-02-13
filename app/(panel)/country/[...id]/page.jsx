@@ -14,7 +14,7 @@ const CountryPage = ({ params }) => {
       {country.isLoading ? (
         <Skeleton className="mx-4 mt-4 w-52 h-8 bg-slate-900/10" />
       ) : (
-        <h1 className="p-4 text-2xl uppercase font-bold">
+        <h1 className="p-4 text-2xl text-right uppercase font-bold">
           {country.data.name}
         </h1>
       )}

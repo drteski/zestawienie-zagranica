@@ -21,7 +21,7 @@ const RootLayoutPanelPage = ({ children }) => {
         <WrapperProviders>
           <Wrapper>
             <Navbar />
-            <div className="relative h-full w-full bg-muted rounded-md overflow-clip">
+            <div className="relative h-full w-full flex flex-col items-end bg-muted rounded-md overflow-clip">
               {children}
               <HeaderSummary />
             </div>

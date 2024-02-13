@@ -119,6 +119,13 @@ const TableFootContent = ({
           <CellSumProducts data={products.data} countryId={countryId} />
         )}
       </TableCell>
+      <TableCell className="text-center font-medium text-[16px] py-2">
+        {products.isLoading ? (
+          <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
+        ) : (
+          <>200</>
+        )}
+      </TableCell>
       <TableCell className="text-center font-medium text-[16px] py-2"></TableCell>
     </TableRow>
   );

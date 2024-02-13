@@ -57,14 +57,14 @@ export function TableContainerAll({ countryId, accounts, countryName }) {
           sortedAccounts.map((account, index) => {
             return (
               <TableRow
-                className="border-b border-b-foreground/5"
+                className="peer/row border-b border-b-foreground/5 hover:bg-gray-200"
                 key={account.name}
               >
                 {index === 0 && (
                   <TableCell
                     rowSpan={sortedAccounts.length}
                     id="country"
-                    className="py-0 px-2 text-center font-bold text-normal border-r"
+                    className="py-0 px-1 text-center font-bold text-lg text-normal border-r text-vert"
                   >
                     {countryName}
                   </TableCell>
@@ -249,6 +249,16 @@ export function TableContainerAll({ countryId, accounts, countryName }) {
                       countryId={countryId}
                       accountId={account.id}
                     />
+                  )}
+                </TableCell>
+                <TableCell
+                  id="products"
+                  className="p-0 px-1 text-center text-sm"
+                >
+                  {products.isLoading ? (
+                    <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
+                  ) : (
+                    <>20</>
                   )}
                 </TableCell>
                 <TableCell id="info" className="p-0 px-1 text-center">

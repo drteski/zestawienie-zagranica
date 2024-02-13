@@ -33,6 +33,7 @@
     --ring: 224 71.4% 4.1%;
  
     --radius: 0.5rem;
+    --column-width: 0;
   }
  
   .dark {
@@ -93,5 +94,11 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+  .text-vert {
+    writing-mode: vertical-lr;
+    text-orientation: upright;
+    letter-spacing: 2px;
+    text-transform: uppercase;
   }
 }

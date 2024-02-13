@@ -6,10 +6,15 @@ import axios from "axios";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import useInitialState from "@/hooks/useInitialState";
+import { useClickAway } from "@uidotdev/usehooks";
 
 const CellOrders = ({ data, countryId, accountId }) => {
   const [check, setCheck] = useState(0);
   const [order, setOrder] = useInitialState(data, countryId, accountId);
+  const [open, setIsOpen] = useState(false);
+  const ref = useClickAway(() => {
+    setIsOpen(false);
+  });
 
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -43,15 +48,26 @@ const CellOrders = ({ data, countryId, accountId }) => {
   };
 
   return (
-    <Input
-      onFocus={(e) => setCheck(parseInt(e.target.value))}
-      onBlur={handleOrders.mutate}
-      type="number"
-      className="text-center border-0 bg-transparent"
-      defaultValue={order}
-      onWheel={numberInputOnWheelPreventChange}
-      pattern="/^\d+$/"
-    />
+    <>
+      <span
+        className={`${!open ? "block" : "hidden"}`}
+        onClick={() => setIsOpen(true)}
+      >
+        {order}
+      </span>
+      <Input
+        ref={ref}
+        onFocus={(e) => setCheck(parseInt(e.target.value))}
+        onBlur={handleOrders.mutate}
+        type="number"
+        className={`text-center border-0 bg-transparent ${
+          open ? "block" : "hidden"
+        }`}
+        defaultValue={order}
+        onWheel={numberInputOnWheelPreventChange}
+        pattern="/^\d+$/"
+      />
+    </>
   );
 };
 
