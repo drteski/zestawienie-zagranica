@@ -2,7 +2,7 @@
 
 import useInitialState from "@/hooks/useInitialState";
 
-const CellTotalCount = ({ data, countryId, accountId }) => {
+const CellDisplayTotalCount = ({ data, countryId, accountId }) => {
   const [totalcount, setTotalCount] = useInitialState(
     data,
     countryId,
@@ -12,4 +12,4 @@ const CellTotalCount = ({ data, countryId, accountId }) => {
   return <>{totalcount}</>;
 };
 
-export default CellTotalCount;
+export default CellDisplayTotalCount;
