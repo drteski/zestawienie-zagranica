@@ -1,9 +1,10 @@
 "use client";
 
 import { Skeleton } from "@/components/ui/skeleton";
-import CountryTableContainer from "@/components/tables/CountryTableContainer";
-import { TableContainer } from "@/components/tables/TableContainer";
 import useGetCountry from "@/hooks/useGetCountry";
+import { Table } from "@/components/ui/table";
+import TableHeadContentAll from "@/components/tables/TableHeadContentAll";
+import { TableContainerAll } from "@/components/tables/TableContainerAll";
 
 const CountryPage = ({ params }) => {
   const id = parseInt(params.id[0]);
@@ -22,13 +23,15 @@ const CountryPage = ({ params }) => {
         {country.isLoading ? (
           <Skeleton className="my-4 h-[calc(100dvh_-_128px_-_96px_-_32px)] bg-foreground/5" />
         ) : (
-          <CountryTableContainer
-            key={country.data.name}
-            country={country.data.name}
-            countryId={country.data.id}
-          >
-            <TableContainer countryId={id} accounts={country.data.accounts} />
-          </CountryTableContainer>
+          <Table>
+            <TableHeadContentAll />
+            <TableContainerAll
+              key={country.data.id}
+              countryId={country.data.id}
+              accounts={country.data.accounts}
+              countryName={country.data.name}
+            />
+          </Table>
         )}
       </div>
     </>

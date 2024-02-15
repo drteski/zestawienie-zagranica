@@ -18,20 +18,21 @@ const Navbar = () => {
   const countries = useGetCountries();
   const path = usePathname();
   const currentCountry = parseInt(path.replace("/country/", ""));
-  const navbarWidth = getComputedStyle(
-    document.documentElement,
-  ).getPropertyValue("--column-width");
+  // const navbarWidth = window
+  //   .getComputedStyle(document.documentElement)
+  //   .getPropertyValue("--column-width");
 
   const handleClick = (e) => {
     console.log(e.target, btnRef.current);
     if (e.currentTarget !== btnRef.current) setOpen(false);
     setOpen(!open);
   };
-
-  document.documentElement.style.setProperty(
-    "--column-width",
-    `${open ? "200px" : "0"}`,
-  );
+  useLayoutEffect(() => {
+    document.documentElement.style.setProperty(
+      "--column-width",
+      `${open ? "200px" : "0"}`,
+    );
+  }, [open]);
 
   return (
     <>

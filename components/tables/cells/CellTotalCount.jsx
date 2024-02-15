@@ -6,19 +6,31 @@ import axios from "axios";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import useInitialState from "@/hooks/useInitialState";
+import { isToday, parseISO } from "date-fns";
 
-const CellOrders = ({ data, countryId, accountId }) => {
+const CellTotalCount = ({ data, countryId, accountId, className }) => {
   const [check, setCheck] = useState(0);
-  const [order, setOrder] = useInitialState(data, countryId, accountId);
+  // const [totalcount, setTotalCount] = useInitialState(
+  //   data,
+  //   countryId,
+  //   accountId,
+  // );
+  const [totalcount, setTotalCount] = useState(() => {
+    return data
+      .filter((country) => country.countryId === countryId)
+      .filter((account) => account.accountId === accountId)
+      .map((date) => (isToday(parseISO(date.createdAt)) ? date.count : 0))
+      .reduce((acc, curr) => acc + curr, 0);
+  });
 
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const updateOrders = async (e) => {
+  const updateTotalCounts = async (e) => {
     if (e.target.value === "") e.target.value = 0;
     if (check === parseInt(e.target.value)) return;
-    setOrder(parseInt(e.target.value));
+    setTotalCount(parseInt(e.target.value));
     return await axios
-      .post("/api/orders", {
+      .post("/api/productCount", {
         countryId,
         accountId,
         count: e.target.value,
@@ -26,10 +38,10 @@ const CellOrders = ({ data, countryId, accountId }) => {
       .then((res) => res.data);
   };
 
-  const handleOrders = useMutation({
-    mutationFn: updateOrders,
+  const handleTotalCounts = useMutation({
+    mutationFn: updateTotalCounts,
     onSuccess: (res) => {
-      queryClient.invalidateQueries(["allorders"]);
+      queryClient.invalidateQueries(["totalcount"]);
       if (res)
         toast({
           title: `${res.message}`,
@@ -45,14 +57,14 @@ const CellOrders = ({ data, countryId, accountId }) => {
   return (
     <Input
       onFocus={(e) => setCheck(parseInt(e.target.value))}
-      onBlur={handleOrders.mutate}
+      onBlur={handleTotalCounts.mutate}
       type="number"
-      className="text-center border-0 bg-transparent"
-      defaultValue={order}
+      className={`text-center btotalcount-0 bg-transparent ${className} text-left`}
+      defaultValue={totalcount}
       onWheel={numberInputOnWheelPreventChange}
       pattern="/^\d+$/"
     />
   );
 };
 
-export default CellOrders;
+export default CellTotalCount;

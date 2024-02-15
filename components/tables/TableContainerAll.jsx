@@ -19,6 +19,8 @@ import useGetAllCorrect from "@/hooks/all/useGetAllCorrect";
 import CellReturns from "@/components/tables/cells/CellReturns";
 import CellCorrects from "@/components/tables/cells/CellCorrect";
 import CellPercent from "@/components/tables/cells/CellPercent";
+import useGetTotalCount from "@/hooks/all/useGetTotalCount";
+import CellDisplayTotalCount from "@/components/tables/cells/CellDisplayTotalCount";
 
 export function TableContainerAll({ countryId, accounts, countryName }) {
   const orders = useGetAllOrders();
@@ -28,6 +30,7 @@ export function TableContainerAll({ countryId, accounts, countryName }) {
   const mails = useGetAllMails();
   const calls = useGetAllCalls();
   const info = useGetInfo();
+  const totalCount = useGetTotalCount();
 
   const sortedAccounts = accounts.sort((a, b) => {
     const nameA = a.name.toUpperCase();
@@ -54,227 +57,242 @@ export function TableContainerAll({ countryId, accounts, countryName }) {
             </TableCell>
           </TableRow>
         ) : (
-          sortedAccounts.map((account, index) => {
-            return (
-              <TableRow
-                className="peer/row border-b border-b-foreground/5 hover:bg-gray-200"
-                key={account.name}
+          <>
+            <TableRow className="border-b border-b-foreground/5">
+              <TableCell
+                rowSpan={sortedAccounts.length + 1}
+                id="country"
+                className="py-0 px-1 text-center font-bold text-lg text-normal border-r text-vert"
               >
-                {index === 0 && (
-                  <TableCell
-                    rowSpan={sortedAccounts.length}
-                    id="country"
-                    className="py-0 px-1 text-center font-bold text-lg text-normal border-r text-vert"
-                  >
-                    {countryName}
+                {countryName}
+              </TableCell>
+            </TableRow>
+            {sortedAccounts.map((account, index) => {
+              return (
+                <TableRow
+                  className="peer/row border-b border-b-foreground/5 hover:bg-gray-200"
+                  key={account.name}
+                >
+                  <TableCell id="account" className="py-0 font-medium text-sm">
+                    {account.name}
                   </TableCell>
-                )}
-                <TableCell id="account" className="py-0 font-medium text-sm">
-                  {account.name}
-                </TableCell>
-                <TableCell id="orders" className="p-0 px-1 text-center text-sm">
-                  {orders.isLoading ? (
-                    <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
-                  ) : (
-                    <CellOrders
-                      data={orders.data}
-                      countryId={countryId}
-                      accountId={account.id}
-                    />
-                  )}
-                </TableCell>
-                <TableCell
-                  id="allorders"
-                  className="p-0 px-1 text-center text-sm"
-                >
-                  {orders.isLoading ? (
-                    <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
-                  ) : (
-                    <CellAllOrders
-                      data={orders.data}
-                      countryId={countryId}
-                      accountId={account.id}
-                    />
-                  )}
-                </TableCell>
-                <TableCell
-                  id="returns"
-                  className="p-0 px-1 text-center text-sm"
-                >
-                  {returns.isLoading ? (
-                    <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
-                  ) : (
-                    <CellReturns
-                      data={returns.data}
-                      countryId={countryId}
-                      accountId={account.id}
-                    />
-                  )}
-                </TableCell>
-                <TableCell
-                  id="allreturns"
-                  className="p-0 px-1 text-center text-sm"
-                >
-                  {returns.isLoading ? (
-                    <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
-                  ) : (
-                    <CellAllOrders
-                      data={returns.data}
-                      countryId={countryId}
-                      accountId={account.id}
-                    />
-                  )}
-                </TableCell>
-                <TableCell
-                  id="allreturnsp"
-                  className="p-0 px-1 text-center text-sm"
-                >
-                  {returns.isLoading ? (
-                    <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
-                  ) : orders.isLoading ? (
-                    <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
-                  ) : (
-                    <CellPercent
-                      orders={orders.data}
-                      data={returns.data}
-                      countryId={countryId}
-                      accountId={account.id}
-                    />
-                  )}
-                </TableCell>
-                <TableCell
-                  id="correct"
-                  className="p-0 px-1 text-center text-sm"
-                >
-                  {correct.isLoading ? (
-                    <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
-                  ) : (
-                    <CellCorrects
-                      data={correct.data}
-                      countryId={countryId}
-                      accountId={account.id}
-                    />
-                  )}
-                </TableCell>
-                <TableCell
-                  id="allcorrect"
-                  className="p-0 px-1 text-center text-sm"
-                >
-                  {correct.isLoading ? (
-                    <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
-                  ) : (
-                    <CellAllOrders
-                      data={correct.data}
-                      countryId={countryId}
-                      accountId={account.id}
-                    />
-                  )}
-                </TableCell>
-                <TableCell
-                  id="allcorrectp"
-                  className="p-0 px-1 text-center text-sm"
-                >
-                  {correct.isLoading ? (
-                    <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
-                  ) : orders.isLoading ? (
-                    <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
-                  ) : (
-                    <CellPercent
-                      orders={orders.data}
-                      data={correct.data}
-                      countryId={countryId}
-                      accountId={account.id}
-                    />
-                  )}
-                </TableCell>
-                <TableCell id="calls" className="p-0 px-1 text-center text-sm">
-                  {calls.isLoading ? (
-                    <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
-                  ) : (
-                    <CellCalls
-                      data={calls.data}
-                      countryId={countryId}
-                      accountId={account.id}
-                    />
-                  )}
-                </TableCell>
-                <TableCell
-                  id="allcalls"
-                  className="p-0 px-1 text-center text-sm"
-                >
-                  {calls.isLoading ? (
-                    <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
-                  ) : (
-                    <CellAllOrders
-                      data={calls.data}
-                      countryId={countryId}
-                      accountId={account.id}
-                    />
-                  )}
-                </TableCell>
-                <TableCell id="mails" className="p-0 px-1 text-center text-sm">
-                  {mails.isLoading ? (
-                    <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
-                  ) : (
-                    <CellMails
-                      data={mails.data}
-                      countryId={countryId}
-                      accountId={account.id}
-                    />
-                  )}
-                </TableCell>
-                <TableCell
-                  id="allmails"
-                  className="p-0 px-1 text-center text-sm"
-                >
-                  {mails.isLoading ? (
-                    <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
-                  ) : (
-                    <CellAllOrders
-                      data={mails.data}
-                      countryId={countryId}
-                      accountId={account.id}
-                    />
-                  )}
-                </TableCell>
-                <TableCell
-                  id="products"
-                  className="p-0 px-1 text-center text-sm"
-                >
-                  {products.isLoading ? (
-                    <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
-                  ) : (
-                    <CellProducts
-                      data={products.data}
-                      countryId={countryId}
-                      accountId={account.id}
-                    />
-                  )}
-                </TableCell>
-                <TableCell
-                  id="products"
-                  className="p-0 px-1 text-center text-sm"
-                >
-                  {products.isLoading ? (
-                    <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
-                  ) : (
-                    <>20</>
-                  )}
-                </TableCell>
-                <TableCell id="info" className="p-0 px-1 text-center">
-                  {info.isLoading ? (
-                    <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
-                  ) : (
-                    <CellInfo
-                      data={info.data}
-                      countryId={countryId}
-                      accountId={account.id}
-                    />
-                  )}
-                </TableCell>
-              </TableRow>
-            );
-          })
+                  <TableCell
+                    id="orders"
+                    className="p-0 px-1 text-center text-sm"
+                  >
+                    {orders.isLoading ? (
+                      <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
+                    ) : (
+                      <CellOrders
+                        data={orders.data}
+                        countryId={countryId}
+                        accountId={account.id}
+                      />
+                    )}
+                  </TableCell>
+                  <TableCell
+                    id="allorders"
+                    className="p-0 px-1 text-center text-sm"
+                  >
+                    {orders.isLoading ? (
+                      <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
+                    ) : (
+                      <CellAllOrders
+                        data={orders.data}
+                        countryId={countryId}
+                        accountId={account.id}
+                      />
+                    )}
+                  </TableCell>
+                  <TableCell
+                    id="returns"
+                    className="p-0 px-1 text-center text-sm"
+                  >
+                    {returns.isLoading ? (
+                      <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
+                    ) : (
+                      <CellReturns
+                        data={returns.data}
+                        countryId={countryId}
+                        accountId={account.id}
+                      />
+                    )}
+                  </TableCell>
+                  <TableCell
+                    id="allreturns"
+                    className="p-0 px-1 text-center text-sm"
+                  >
+                    {returns.isLoading ? (
+                      <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
+                    ) : (
+                      <CellAllOrders
+                        data={returns.data}
+                        countryId={countryId}
+                        accountId={account.id}
+                      />
+                    )}
+                  </TableCell>
+                  <TableCell
+                    id="allreturnsp"
+                    className="p-0 px-1 text-center text-sm"
+                  >
+                    {returns.isLoading ? (
+                      <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
+                    ) : orders.isLoading ? (
+                      <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
+                    ) : (
+                      <CellPercent
+                        orders={orders.data}
+                        data={returns.data}
+                        countryId={countryId}
+                        accountId={account.id}
+                      />
+                    )}
+                  </TableCell>
+                  <TableCell
+                    id="correct"
+                    className="p-0 px-1 text-center text-sm"
+                  >
+                    {correct.isLoading ? (
+                      <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
+                    ) : (
+                      <CellCorrects
+                        data={correct.data}
+                        countryId={countryId}
+                        accountId={account.id}
+                      />
+                    )}
+                  </TableCell>
+                  <TableCell
+                    id="allcorrect"
+                    className="p-0 px-1 text-center text-sm"
+                  >
+                    {correct.isLoading ? (
+                      <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
+                    ) : (
+                      <CellAllOrders
+                        data={correct.data}
+                        countryId={countryId}
+                        accountId={account.id}
+                      />
+                    )}
+                  </TableCell>
+                  <TableCell
+                    id="allcorrectp"
+                    className="p-0 px-1 text-center text-sm"
+                  >
+                    {correct.isLoading ? (
+                      <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
+                    ) : orders.isLoading ? (
+                      <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
+                    ) : (
+                      <CellPercent
+                        orders={orders.data}
+                        data={correct.data}
+                        countryId={countryId}
+                        accountId={account.id}
+                      />
+                    )}
+                  </TableCell>
+                  <TableCell
+                    id="calls"
+                    className="p-0 px-1 text-center text-sm"
+                  >
+                    {calls.isLoading ? (
+                      <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
+                    ) : (
+                      <CellCalls
+                        data={calls.data}
+                        countryId={countryId}
+                        accountId={account.id}
+                      />
+                    )}
+                  </TableCell>
+                  <TableCell
+                    id="allcalls"
+                    className="p-0 px-1 text-center text-sm"
+                  >
+                    {calls.isLoading ? (
+                      <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
+                    ) : (
+                      <CellAllOrders
+                        data={calls.data}
+                        countryId={countryId}
+                        accountId={account.id}
+                      />
+                    )}
+                  </TableCell>
+                  <TableCell
+                    id="mails"
+                    className="p-0 px-1 text-center text-sm"
+                  >
+                    {mails.isLoading ? (
+                      <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
+                    ) : (
+                      <CellMails
+                        data={mails.data}
+                        countryId={countryId}
+                        accountId={account.id}
+                      />
+                    )}
+                  </TableCell>
+                  <TableCell
+                    id="allmails"
+                    className="p-0 px-1 text-center text-sm"
+                  >
+                    {mails.isLoading ? (
+                      <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
+                    ) : (
+                      <CellAllOrders
+                        data={mails.data}
+                        countryId={countryId}
+                        accountId={account.id}
+                      />
+                    )}
+                  </TableCell>
+                  <TableCell
+                    id="products"
+                    className="p-0 px-1 text-center text-sm"
+                  >
+                    {products.isLoading ? (
+                      <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
+                    ) : (
+                      <CellProducts
+                        data={products.data}
+                        countryId={countryId}
+                        accountId={account.id}
+                      />
+                    )}
+                  </TableCell>
+                  <TableCell
+                    id="products"
+                    className="p-0 px-1 text-center text-sm"
+                  >
+                    {totalCount.isLoading ? (
+                      <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
+                    ) : (
+                      <CellDisplayTotalCount
+                        data={totalCount.data}
+                        countryId={countryId}
+                        accountId={account.id}
+                      />
+                    )}
+                  </TableCell>
+                  <TableCell id="info" className="p-0 px-1 text-center">
+                    {info.isLoading ? (
+                      <Skeleton className="h-[24px] my-2 w-full bg-foreground/5" />
+                    ) : (
+                      <CellInfo
+                        data={info.data}
+                        countryId={countryId}
+                        accountId={account.id}
+                      />
+                    )}
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+          </>
         )}
         <TableFootContentAll
           orders={orders}

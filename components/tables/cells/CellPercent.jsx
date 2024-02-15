@@ -17,7 +17,7 @@ const CellPercent = ({ orders, data, countryId, accountId }) => {
     percent = (dataCount * 100) / ordersCount;
   }
 
-  return <>{percent.toFixed(2)} %</>;
+  return <>{percent.toFixed(2)}%</>;
 };
 
 export default CellPercent;
