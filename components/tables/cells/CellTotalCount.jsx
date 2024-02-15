@@ -23,7 +23,7 @@ const CellTotalCount = ({ data, countryId, accountId, className }) => {
     if (check === parseInt(e.target.value)) return;
     setTotalCount(parseInt(e.target.value));
     return await axios
-      .post("/api/productCount", {
+      .post("/api/productcount", {
         countryId,
         accountId,
         count: e.target.value,
