@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 const useGetTotalCount = () => {
   const getTotalCount = async () => {
     return await axios
-      .get("/api/productCount")
+      .get("/api/productcount")
       .then((res) => res.data)
       .catch((error) => ({
         message: error,
