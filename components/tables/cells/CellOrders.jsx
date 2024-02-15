@@ -10,7 +10,7 @@ import useInitialState from "@/hooks/useInitialState";
 const CellOrders = ({ data, countryId, accountId }) => {
   const [check, setCheck] = useState(0);
   const [order, setOrder] = useInitialState(data, countryId, accountId);
-  console.log(order, data);
+  console.log(order, data, countryId, accountId);
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const updateOrders = async (e) => {
