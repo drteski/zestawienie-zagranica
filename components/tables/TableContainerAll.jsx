@@ -67,7 +67,7 @@ export function TableContainerAll({ countryId, accounts, countryName }) {
                 {countryName}
               </TableCell>
             </TableRow>
-            {sortedAccounts.map((account, index) => {
+            {sortedAccounts.map((account) => {
               return (
                 <TableRow
                   className="peer/row border-b border-b-foreground/5 hover:bg-gray-200"

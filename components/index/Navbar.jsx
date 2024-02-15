@@ -7,7 +7,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import {
   CarbonChevronRight,
   CarbonCollapseAll,
-  CarbonReportData,
 } from "@/components/layout/Icons";
 import { usePathname } from "next/navigation";
 import { useLayoutEffect, useRef, useState } from "react";
@@ -18,9 +17,6 @@ const Navbar = () => {
   const countries = useGetCountries();
   const path = usePathname();
   const currentCountry = parseInt(path.replace("/country/", ""));
-  // const navbarWidth = window
-  //   .getComputedStyle(document.documentElement)
-  //   .getPropertyValue("--column-width");
 
   const handleClick = (e) => {
     console.log(e.target, btnRef.current);
