@@ -5,17 +5,16 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
-import { isToday, parseISO } from "date-fns";
+import useInitialState from "@/hooks/useInitialState";
 
 const CellTotalCount = ({ data, countryId, accountId, className }) => {
   const [check, setCheck] = useState(0);
-  const [totalcount, setTotalCount] = useState(() => {
-    return data
-      .filter((country) => country.countryId === countryId)
-      .filter((account) => account.accountId === accountId)
-      .map((date) => (isToday(parseISO(date.createdAt)) ? date.count : 0))
-      .reduce((acc, curr) => acc + curr, 0);
-  });
+  console.log(data);
+  const [totalcount, setTotalCount] = useInitialState(
+    data,
+    countryId,
+    accountId,
+  );
 
   const { toast } = useToast();
   const queryClient = useQueryClient();
