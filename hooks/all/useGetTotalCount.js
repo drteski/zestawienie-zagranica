@@ -1,0 +1,23 @@
+"use client";
+
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
+
+const useGetTotalCount = () => {
+  const getTotalCount = async () => {
+    return await axios
+      .get("/api/totalcount")
+      .then((res) => res.data)
+      .catch((error) => ({
+        message: error,
+      }));
+  };
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["totalcount"],
+    queryFn: getTotalCount,
+  });
+  return { data, isLoading };
+};
+
+export default useGetTotalCount;
