@@ -3,8 +3,6 @@ import { Inter } from "next/font/google";
 import WrapperProviders from "@/components/layout/WrapperProviders";
 import { Toaster } from "@/components/ui/toaster";
 import Wrapper from "@/components/layout/Wrapper";
-import Navbar from "@/components/index/Navbar";
-import HeaderSummary from "@/components/index/HeaderSummary";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -16,14 +14,12 @@ export const metadata = {
 
 const RootLayoutPanelPage = ({ children }) => {
   return (
-    <html lang="en">
+    <html lang="pl">
       <body className={`${inter.className}`}>
         <WrapperProviders>
           <Wrapper>
-            <Navbar />
-            <div className="relative h-full w-full flex flex-col items-end bg-muted rounded-md overflow-clip">
+            <div className="relative h-full w-full grid grid-rows-[96px_calc(100dvh_-_32px_-_96px_-_var(--summary-height))_auto] bg-muted rounded-md overflow-clip">
               {children}
-              <HeaderSummary />
             </div>
           </Wrapper>
         </WrapperProviders>

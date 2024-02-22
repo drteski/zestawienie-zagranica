@@ -5,11 +5,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
-import useInitialState from "@/hooks/useInitialState";
+import { useSelector } from "react-redux";
 
 const CellCorrects = ({ data, countryId, accountId }) => {
+  const currentDate = useSelector((state) => state.dataDate.currentDate);
   const [check, setCheck] = useState(0);
-  const [correct, setCorrect] = useInitialState(data, countryId, accountId);
+  const [correct, setCorrect] = useState(data);
 
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -22,6 +23,7 @@ const CellCorrects = ({ data, countryId, accountId }) => {
         countryId,
         accountId,
         count: e.target.value,
+        date: currentDate,
       })
       .then((res) => res.data);
   };
@@ -29,7 +31,7 @@ const CellCorrects = ({ data, countryId, accountId }) => {
   const handleCorrects = useMutation({
     mutationFn: updateCorrects,
     onSuccess: (res) => {
-      queryClient.invalidateQueries(["allcorrect"]);
+      queryClient.invalidateQueries(["alldata", currentDate]);
       if (res)
         toast({
           title: `${res.message}`,
@@ -47,7 +49,7 @@ const CellCorrects = ({ data, countryId, accountId }) => {
       onFocus={(e) => setCheck(parseInt(e.target.value))}
       onBlur={handleCorrects.mutate}
       type="number"
-      className="text-center border-0 bg-transparent"
+      className="text-center px-1 pt-[3px] border border-gray-300 bg-muted w-[60px]"
       defaultValue={correct}
       onWheel={numberInputOnWheelPreventChange}
       pattern="/^\d+$/"

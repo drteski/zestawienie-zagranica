@@ -3,10 +3,10 @@
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 
-const useGetCountry = (id) => {
-  const getCountry = async () => {
+const useGetAllData = (date) => {
+  const getAllData = async () => {
     return await axios
-      .get(`/api/countries/${id}`)
+      .get(`/api/all/${date}`)
       .then((res) => res.data)
       .catch((error) => ({
         message: error,
@@ -14,10 +14,10 @@ const useGetCountry = (id) => {
   };
 
   const { data, isLoading } = useQuery({
-    queryKey: ["country", id],
-    queryFn: getCountry,
+    queryKey: ["alldata", date],
+    queryFn: getAllData,
   });
   return { data, isLoading };
 };
 
-export default useGetCountry;
+export default useGetAllData;

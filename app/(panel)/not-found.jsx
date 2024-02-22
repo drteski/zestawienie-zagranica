@@ -7,7 +7,7 @@ const NotFoundPage = () => {
       <h1 className="text-9xl mb-2 font-medium">404</h1>
       <p className="mb-12 text-primary/60">Nie znaleziono strony</p>
       <Button variant="outline" asChild>
-        <Link href="/">Strona główna</Link>
+        <Link href="/public">Strona główna</Link>
       </Button>
     </div>
   );

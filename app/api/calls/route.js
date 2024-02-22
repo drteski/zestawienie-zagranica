@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import prisma from "@/db";
 import { endOfDay, endOfMonth, startOfDay, startOfMonth } from "date-fns";
+
 export async function GET() {
   const calls = await prisma.callCount.findMany({
     where: {
@@ -14,14 +15,14 @@ export async function GET() {
 }
 
 export async function POST(request) {
-  const { countryId, accountId, count } = await request.json();
+  const { countryId, accountId, count, date } = await request.json();
   const existing = await prisma.callCount.findMany({
     where: {
       countryId: parseInt(countryId),
       accountId: parseInt(accountId),
       createdAt: {
-        gte: startOfDay(new Date()),
-        lte: endOfDay(new Date()),
+        gte: startOfDay(new Date(date)),
+        lte: endOfDay(new Date(date)),
       },
     },
   });
@@ -59,6 +60,7 @@ export async function POST(request) {
         },
       },
       count: parseInt(count),
+      createdAt: new Date(date),
     },
   });
   return NextResponse.json({ message: "Dodano", calls });

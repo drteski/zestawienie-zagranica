@@ -8,14 +8,7 @@ import { Input } from "@/components/ui/input";
 
 const CellProducts = ({ data, countryId, accountId }) => {
   const [check, setCheck] = useState(0);
-  const [product, setProduct] = useState(() => {
-    const filterData = data
-      .filter((country) => country.countryId === countryId)
-      .filter((account) => account.accountId === accountId);
-    return filterData.length === 0
-      ? 0
-      : filterData[filterData.length - 1].count;
-  });
+  const [product, setProduct] = useState(data);
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const updateProducts = async (e) => {
@@ -34,7 +27,7 @@ const CellProducts = ({ data, countryId, accountId }) => {
   const handleProducts = useMutation({
     mutationFn: updateProducts,
     onSuccess: (res) => {
-      queryClient.invalidateQueries(["allproducts"]);
+      queryClient.invalidateQueries(["alldata", currentDate]);
       if (res)
         toast({
           title: `${res.message}`,
@@ -53,7 +46,7 @@ const CellProducts = ({ data, countryId, accountId }) => {
         onFocus={(e) => setCheck(parseInt(e.target.value))}
         onBlur={handleProducts.mutate}
         type="number"
-        className="text-center border-0 bg-transparent"
+        className="text-center px-1 pt-[3px] border border-gray-300 bg-muted w-[80px]"
         defaultValue={product}
         onWheel={numberInputOnWheelPreventChange}
         pattern="/^\d+$/"

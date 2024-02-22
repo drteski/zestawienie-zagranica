@@ -8,13 +8,7 @@ import { Input } from "@/components/ui/input";
 
 const CellInfo = ({ data, countryId, accountId }) => {
   const [check, setCheck] = useState("");
-  const [info, setInfo] = useState(() => {
-    const filteredInfo = data
-      .filter((country) => country.countryId === countryId)
-      .filter((account) => account.accountId === accountId);
-
-    return filteredInfo.length > 0 ? filteredInfo[0].info : "";
-  });
+  const [info, setInfo] = useState(data);
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const updateAccount = async (e) => {
@@ -32,7 +26,7 @@ const CellInfo = ({ data, countryId, accountId }) => {
   const handleAccount = useMutation({
     mutationFn: updateAccount,
     onSuccess: (res) => {
-      queryClient.invalidateQueries(["info"]);
+      queryClient.invalidateQueries(["alldata", currentDate]);
       if (res)
         toast({
           title: `${res.message}`,
@@ -43,7 +37,7 @@ const CellInfo = ({ data, countryId, accountId }) => {
     <Input
       onFocus={(e) => setCheck(e.target.value)}
       onBlur={handleAccount.mutate}
-      className="text-center px-4 border-0 bg-transparent"
+      className="text-center px-1 pt-[3px] border border-gray-300 bg-muted w-[84px]"
       defaultValue={info}
     />
   );

@@ -5,16 +5,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
-import useInitialState from "@/hooks/useInitialState";
 
-const CellTotalCount = ({ data, countryId, accountId, className }) => {
+const CellTotalCount = ({ data, countryId, accountId, currentDate }) => {
   const [check, setCheck] = useState(0);
-  console.log(data);
-  const [totalcount, setTotalCount] = useInitialState(
-    data,
-    countryId,
-    accountId,
-  );
+  const [totalcount, setTotalCount] = useState(data);
 
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -34,11 +28,11 @@ const CellTotalCount = ({ data, countryId, accountId, className }) => {
   const handleTotalCounts = useMutation({
     mutationFn: updateTotalCounts,
     onSuccess: (res) => {
-      queryClient.invalidateQueries(["totalcount"]);
-      if (res)
-        toast({
-          title: `${res.message}`,
-        });
+      queryClient.invalidateQueries(["alldata", currentDate]);
+      if (res) console.log(res);
+      toast({
+        title: `${res.message}`,
+      });
     },
   });
 
@@ -52,7 +46,7 @@ const CellTotalCount = ({ data, countryId, accountId, className }) => {
       onFocus={(e) => setCheck(parseInt(e.target.value))}
       onBlur={handleTotalCounts.mutate}
       type="number"
-      className={`text-center btotalcount-0 bg-transparent ${className} text-left`}
+      className="text-left px-1 border border-gray-300 bg-muted w-[200px]"
       defaultValue={totalcount}
       onWheel={numberInputOnWheelPreventChange}
       pattern="/^\d+$/"

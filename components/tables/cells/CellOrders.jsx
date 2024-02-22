@@ -5,11 +5,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
-import useInitialState from "@/hooks/useInitialState";
+import { useSelector } from "react-redux";
 
 const CellOrders = ({ data, countryId, accountId }) => {
+  const currentDate = useSelector((state) => state.dataDate.currentDate);
   const [check, setCheck] = useState(0);
-  const [order, setOrder] = useInitialState(data, countryId, accountId);
+  const [order, setOrder] = useState(data);
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const updateOrders = async (e) => {
@@ -21,6 +22,7 @@ const CellOrders = ({ data, countryId, accountId }) => {
         countryId,
         accountId,
         count: e.target.value,
+        date: currentDate,
       })
       .then((res) => res.data);
   };
@@ -28,7 +30,7 @@ const CellOrders = ({ data, countryId, accountId }) => {
   const handleOrders = useMutation({
     mutationFn: updateOrders,
     onSuccess: (res) => {
-      queryClient.invalidateQueries(["allorders"]);
+      queryClient.invalidateQueries(["alldata", currentDate]);
       if (res)
         toast({
           title: `${res.message}`,
@@ -46,7 +48,7 @@ const CellOrders = ({ data, countryId, accountId }) => {
       onFocus={(e) => setCheck(parseInt(e.target.value))}
       onBlur={handleOrders.mutate}
       type="number"
-      className="text-center border-0 bg-transparent"
+      className="text-center px-1 pt-[3px] border border-gray-300 bg-muted w-[60px]"
       defaultValue={order}
       onWheel={numberInputOnWheelPreventChange}
       pattern="/^\d+$/"

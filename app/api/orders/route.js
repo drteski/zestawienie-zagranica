@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 import prisma from "@/db";
 import { endOfDay, endOfMonth, startOfDay, startOfMonth } from "date-fns";
+
 export const dynamic = "force-dynamic";
+
 export async function GET() {
   const orders = await prisma.orderCount.findMany({
     where: {
@@ -15,14 +17,14 @@ export async function GET() {
 }
 
 export async function POST(request) {
-  const { countryId, accountId, count } = await request.json();
+  const { countryId, accountId, count, date } = await request.json();
   const existing = await prisma.orderCount.findMany({
     where: {
       countryId: parseInt(countryId),
       accountId: parseInt(accountId),
       createdAt: {
-        gte: startOfDay(new Date()),
-        lte: endOfDay(new Date()),
+        gte: startOfDay(new Date(date)),
+        lte: endOfDay(new Date(date)),
       },
     },
   });
@@ -60,6 +62,7 @@ export async function POST(request) {
           id: parseInt(accountId),
         },
       },
+      createdAt: new Date(date),
     },
   });
   return NextResponse.json({ message: "Dodano", orders });

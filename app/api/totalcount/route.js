@@ -1,33 +1,24 @@
 import { NextResponse } from "next/server";
 import prisma from "@/db";
 import { endOfDay, endOfMonth, startOfDay, startOfMonth } from "date-fns";
+
 export const dynamic = "force-dynamic";
+
 export async function GET() {
-  const totalCount = await prisma.ProductsTotalCount.findMany({
-    where: {
-      createdAt: {
-        lte: endOfMonth(endOfDay(new Date())),
-        gte: startOfMonth(startOfDay(new Date())),
-      },
-    },
-  });
+  const totalCount = await prisma.ProductsTotalCount.findMany();
   return NextResponse.json([...totalCount]);
 }
 
 export async function POST(request) {
   const { countryId, accountId, count } = await request.json();
-  const existing = await prisma.ProductsTotalCount.findMany({
+  const existing = await prisma.productsTotalCount.findMany({
     where: {
       countryId: parseInt(countryId),
       accountId: parseInt(accountId),
-      createdAt: {
-        gte: startOfDay(new Date()),
-        lte: endOfDay(new Date()),
-      },
     },
   });
   if (existing.length !== 0) {
-    const totalCount = await prisma.ProductsTotalCount.update({
+    const totalCount = await prisma.productsTotalCount.update({
       where: {
         id: existing[0].id,
       },
@@ -47,7 +38,7 @@ export async function POST(request) {
     });
     return NextResponse.json({ message: "Zaktualizowano", totalCount });
   }
-  const totalCount = await prisma.ProductsTotalCount.create({
+  const totalCount = await prisma.productsTotalCount.create({
     data: {
       Country: {
         connect: {

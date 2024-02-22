@@ -34,6 +34,7 @@
 
 		--radius: 0.5rem;
 		--column-width: 0;
+		--summary-height: 118px;
 	}
 
 
@@ -77,6 +78,7 @@
 
 	*::-webkit-scrollbar {
 		width: 4px;
+		height: 4px;
 	}
 
 
@@ -113,5 +115,20 @@
 		text-orientation: upright;
 		letter-spacing: 2px;
 		text-transform: uppercase;
+	}
+
+
+	.min-cont {
+		max-width: min-content;
+	}
+
+
+	.min-h-cont {
+		max-height: min-content;
+	}
+
+
+	.w-content {
+		width: max-content;
 	}
 }

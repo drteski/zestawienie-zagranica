@@ -1,6 +1,8 @@
 "use client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SessionProvider } from "next-auth/react";
+import { StoreProvider } from "@/app/Redux/provider";
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -12,7 +14,11 @@ const queryClient = new QueryClient({
 const WrapperProviders = ({ children }) => {
   return (
     <SessionProvider>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+      <StoreProvider>
+        <QueryClientProvider client={queryClient}>
+          {children}
+        </QueryClientProvider>
+      </StoreProvider>
     </SessionProvider>
   );
 };
