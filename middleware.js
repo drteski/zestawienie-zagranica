@@ -23,7 +23,6 @@ const middleware = async (request) => {
         "callbackUrl",
         encodeURI(`${process.env.NEXTAUTH_URL}${pathname.replace("/", "")}`),
       );
-      console.log(url);
       return NextResponse.redirect(url);
     }
     return NextResponse.next();

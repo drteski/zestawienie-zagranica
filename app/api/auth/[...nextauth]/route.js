@@ -1,5 +1,7 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import prisma from "@/db";
+
 export const authOptions = {
   providers: [
     CredentialsProvider({
@@ -9,8 +11,11 @@ export const authOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
+        const db = await prisma.password.findUnique({
+          where: { id: 1 },
+        });
         const data = await req.body;
-        return data.password === process.env.NEXT_PUBLIC_PASSWORD;
+        return data.password === db.password;
       },
     }),
   ],

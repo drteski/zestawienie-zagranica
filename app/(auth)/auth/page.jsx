@@ -14,16 +14,18 @@ const AuthPage = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    return await signIn("cred", {
+    await signIn("cred", {
       password: pass,
       callbackUrl,
       redirect: false,
-    })
-      .then(() => {
-        setError(false);
+    }).then((data) => {
+      if (data.ok === false) {
+        setPass("");
+        setError(true);
+      } else {
         router.push(callbackUrl);
-      })
-      .catch(() => setError(true));
+      }
+    });
   };
 
   return (
@@ -37,7 +39,10 @@ const AuthPage = () => {
         )}
         <Input
           className="w-96 my-4"
-          onChange={(e) => setPass(e.target.value)}
+          onChange={(e) => {
+            setError(false);
+            setPass(e.target.value);
+          }}
           type="password"
           defaultValue={pass}
           placeholder="Hasło"
