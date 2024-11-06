@@ -16,7 +16,7 @@ const middleware = async (request) => {
     const token = await getToken({ req: request, secret });
     if (!token) {
       if (pathname === "/") {
-        return NextResponse.redirect(`${process.env.NEXTAUTH_URL}auth`);
+        return NextResponse.redirect(`${process.env.NEXTAUTH_URL}/auth`);
       }
       const url = new URL("/auth", request.url);
       url.searchParams.set(
